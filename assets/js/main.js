@@ -74,9 +74,9 @@
         'Email: ' + (data.get('email') || '') + '\n\n' +
         (data.get('message') || '');
       window.location.href =
-        'mailto:morcelrecipeapp@gmail.com?subject=' + encodeURIComponent(subject) +
+        'mailto:morselrecipeapp@gmail.com?subject=' + encodeURIComponent(subject) +
         '&body=' + encodeURIComponent(body);
-      showStatus('ok', 'Opening your email app… if nothing happens, write to morcelrecipeapp@gmail.com.');
+      showStatus('ok', 'Opening your email app… if nothing happens, write to morselrecipeapp@gmail.com.');
       return;
     }
 
@@ -93,11 +93,11 @@
           form.reset();
           showStatus('ok', 'Thanks! Your message is on its way — we’ll reply soon.');
         } else {
-          showStatus('err', 'Something went wrong. Please email morcelrecipeapp@gmail.com instead.');
+          showStatus('err', 'Something went wrong. Please email morselrecipeapp@gmail.com instead.');
         }
       })
       .catch(function () {
-        showStatus('err', 'Network error. Please email morcelrecipeapp@gmail.com instead.');
+        showStatus('err', 'Network error. Please email morselrecipeapp@gmail.com instead.');
       })
       .finally(function () {
         if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Send message'; }
