@@ -1,4 +1,4 @@
-/* Savr site — theme toggle, scroll reveal, and contact form handling. */
+/* Morsel site — theme toggle, scroll reveal, and contact form handling. */
 (function () {
   'use strict';
 
@@ -6,7 +6,7 @@
   var root = document.documentElement;
   var toggle = document.querySelector('.theme-toggle');
   var stored = null;
-  try { stored = localStorage.getItem('savr-theme'); } catch (e) {}
+  try { stored = localStorage.getItem('morsel-theme'); } catch (e) {}
   if (stored === 'dark' || stored === 'light') root.setAttribute('data-theme', stored);
 
   function currentTheme() {
@@ -26,7 +26,7 @@
     toggle.addEventListener('click', function () {
       var next = currentTheme() === 'dark' ? 'light' : 'dark';
       root.setAttribute('data-theme', next);
-      try { localStorage.setItem('savr-theme', next); } catch (e) {}
+      try { localStorage.setItem('morsel-theme', next); } catch (e) {}
       paintToggle();
     });
   }
@@ -68,15 +68,15 @@
     if (!configured) {
       ev.preventDefault();
       var data = new FormData(form);
-      var subject = 'Savr contact — ' + (data.get('topic') || 'General');
+      var subject = 'Morsel contact — ' + (data.get('topic') || 'General');
       var body =
         'Name: ' + (data.get('name') || '') + '\n' +
         'Email: ' + (data.get('email') || '') + '\n\n' +
         (data.get('message') || '');
       window.location.href =
-        'mailto:carbonstroke@gmail.com?subject=' + encodeURIComponent(subject) +
+        'mailto:morcelrecipeapp@gmail.com?subject=' + encodeURIComponent(subject) +
         '&body=' + encodeURIComponent(body);
-      showStatus('ok', 'Opening your email app… if nothing happens, write to carbonstroke@gmail.com.');
+      showStatus('ok', 'Opening your email app… if nothing happens, write to morcelrecipeapp@gmail.com.');
       return;
     }
 
@@ -93,11 +93,11 @@
           form.reset();
           showStatus('ok', 'Thanks! Your message is on its way — we’ll reply soon.');
         } else {
-          showStatus('err', 'Something went wrong. Please email carbonstroke@gmail.com instead.');
+          showStatus('err', 'Something went wrong. Please email morcelrecipeapp@gmail.com instead.');
         }
       })
       .catch(function () {
-        showStatus('err', 'Network error. Please email carbonstroke@gmail.com instead.');
+        showStatus('err', 'Network error. Please email morcelrecipeapp@gmail.com instead.');
       })
       .finally(function () {
         if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Send message'; }
