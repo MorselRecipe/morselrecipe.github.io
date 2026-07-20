@@ -1,10 +1,10 @@
-# Morsel — marketing site
+# Morsel - marketing site
 
 The public website for **Morsel**, the app that saves recipes from any link and keeps
 them (with macros) on your phone for offline cooking.
 
 Built as a static site so it can be hosted for free on **GitHub Pages**. It mirrors
-the app's **Morsel Design System** — paprika brand, basil/honey accents, warm "sand"
+the app's **Morsel Design System** - paprika brand, basil/honey accents, warm "sand"
 neutrals and warm "ink" text, with Bricolage Grotesque / Inter / Space Grotesk type.
 
 ## Pages
@@ -39,7 +39,7 @@ GitHub Pages per [GitHub's docs](https://docs.github.com/pages/configuring-a-cus
 
 ## Wire up the contact form
 
-The form works out of the box by **opening the visitor's email app pre-filled** —
+The form works out of the box by **opening the visitor's email app pre-filled** -
 no backend required. To collect submissions to your inbox instead:
 
 1. Create a free form at [Formspree](https://formspree.io) (or similar).

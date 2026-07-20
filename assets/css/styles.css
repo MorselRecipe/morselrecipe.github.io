@@ -1,5 +1,5 @@
 /* =========================================================================
-   Morsel — marketing site
+   Morsel - marketing site
    Design tokens mirror the app's Morsel Design System (constants/theme.ts):
    Paprika hero, basil + honey support, warm "sand" neutrals, warm "ink" text.
    ========================================================================= */
@@ -304,7 +304,7 @@ h1, h2, h3, h4 {
   display: flex; align-items: center; gap: 8px;
 }
 
-/* Phone — device PNGs (frames baked in, transparent background) */
+/* Phone - device PNGs (frames baked in, transparent background) */
 .phone-shell {
   justify-self: center;
   position: relative;
@@ -422,7 +422,7 @@ h1, h2, h3, h4 {
 @media (max-width: 900px) { .features { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 580px) { .features { grid-template-columns: 1fr; } }
 
-/* Feature — spotlight band */
+/* Feature - spotlight band */
 .spotlight {
   background: var(--surface-sunken);
   border-block: 1px solid var(--border);

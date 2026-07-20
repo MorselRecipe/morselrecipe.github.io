@@ -1,4 +1,4 @@
-/* Morsel site — theme toggle, scroll reveal, and contact form handling. */
+/* Morsel site - theme toggle, scroll reveal, and contact form handling. */
 (function () {
   'use strict';
 
@@ -68,7 +68,7 @@
     if (!configured) {
       ev.preventDefault();
       var data = new FormData(form);
-      var subject = 'Morsel contact — ' + (data.get('topic') || 'General');
+      var subject = 'Morsel contact - ' + (data.get('topic') || 'General');
       var body =
         'Name: ' + (data.get('name') || '') + '\n' +
         'Email: ' + (data.get('email') || '') + '\n\n' +
@@ -91,7 +91,7 @@
       .then(function (res) {
         if (res.ok) {
           form.reset();
-          showStatus('ok', 'Thanks! Your message is on its way — we’ll reply soon.');
+          showStatus('ok', 'Thanks! Your message is on its way - we’ll reply soon.');
         } else {
           showStatus('err', 'Something went wrong. Please email morselrecipeapp@gmail.com instead.');
         }
