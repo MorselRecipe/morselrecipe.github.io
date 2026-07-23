@@ -2,6 +2,9 @@
 (function () {
   'use strict';
 
+  // Tells the inline head script it doesn't need to un-hide the reveal content.
+  window.__morselReady = true;
+
   /* ---- Theme toggle (persisted, respects system default) ---- */
   var root = document.documentElement;
   var toggle = document.querySelector('.theme-toggle');
@@ -31,6 +34,32 @@
     });
   }
 
+  /* ---- Mobile navigation ----
+     Below 860px the inline links are hidden, so without this the site had no
+     navigation at all on a phone. */
+  var navToggle = document.querySelector('.nav-toggle');
+  var navPanel = document.getElementById('mobile-nav');
+  if (navToggle && navPanel) {
+    var setNav = function (open) {
+      navPanel.hidden = !open;
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      var use = navToggle.querySelector('use');
+      if (use) use.setAttribute('href', open ? '#i-close' : '#i-menu');
+    };
+    navToggle.addEventListener('click', function () { setNav(navPanel.hidden); });
+    // Following a link should dismiss the panel it was opened from.
+    navPanel.addEventListener('click', function (ev) {
+      if (ev.target.closest('a')) setNav(false);
+    });
+    document.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Escape' && !navPanel.hidden) { setNav(false); navToggle.focus(); }
+    });
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 860 && !navPanel.hidden) setNav(false);
+    });
+  }
+
   /* ---- Reveal on scroll ---- */
   var revealables = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && revealables.length) {
@@ -48,6 +77,50 @@
   var yr = document.getElementById('year');
   if (yr) yr.textContent = String(new Date().getFullYear());
 
+  var SUPPORT_EMAIL = 'morselrecipeapp@gmail.com';
+
+  /* ---- Copy-to-clipboard ---- */
+  function copyText(text, btn) {
+    function done() {
+      if (!btn) return;
+      if (!btn.getAttribute('data-label')) btn.setAttribute('data-label', btn.textContent);
+      btn.textContent = 'Copied';
+      setTimeout(function () { btn.textContent = btn.getAttribute('data-label'); }, 2000);
+    }
+    function legacy() {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); done(); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, legacy);
+    } else {
+      legacy();
+    }
+  }
+
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () { copyText(btn.getAttribute('data-copy'), btn); });
+  });
+
+  /* ---- Early access: never fail silently ----
+     A mailto: click on a device with no mail handler fires no navigation and no
+     error, so the primary CTA would appear to do nothing at all. Revealing the
+     fallback on every click guarantees the action always produces a visible
+     result, and leaves the address on screen if the handoff didn't happen. */
+  document.querySelectorAll('[data-early-access]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      var panel = document.querySelector(el.getAttribute('data-fallback') || '');
+      if (panel) panel.hidden = false;
+    });
+  });
+
   /* ---- Contact form ---- */
   var form = document.getElementById('contact-form');
   if (!form) return;
@@ -60,30 +133,47 @@
     status.className = 'form-status show ' + kind;
   }
 
-  form.addEventListener('submit', function (ev) {
-    var action = form.getAttribute('action') || '';
-    var configured = action && action.indexOf('YOUR_FORM_ID') === -1;
+  /* ---- Early-access topic reveals the Play Store email field ---- */
+  var topic = document.getElementById('topic');
+  var playField = document.getElementById('play-field');
+  var playEmail = document.getElementById('play-email');
+  if (topic && playField) {
+    var syncPlayField = function () {
+      playField.hidden = topic.value !== 'Early access';
+      if (playField.hidden && playEmail) playEmail.value = '';
+    };
+    topic.addEventListener('change', syncPlayField);
+    syncPlayField();
+  }
 
-    // No backend configured yet → fall back to a pre-filled email draft.
-    if (!configured) {
-      ev.preventDefault();
+  form.addEventListener('submit', function (ev) {
+    // The live endpoint lives in data-endpoint, never in `action` - see the
+    // comment on the <form> in index.html.
+    var endpoint = (form.getAttribute('data-endpoint') || '').trim();
+    ev.preventDefault();
+
+    // No backend configured yet → hand off to a pre-filled email draft.
+    if (!endpoint) {
       var data = new FormData(form);
       var subject = 'Morsel contact - ' + (data.get('topic') || 'General');
+      var play = data.get('play_email');
       var body =
         'Name: ' + (data.get('name') || '') + '\n' +
-        'Email: ' + (data.get('email') || '') + '\n\n' +
+        'Email: ' + (data.get('email') || '') + '\n' +
+        (play ? 'Google Play Store email: ' + play + '\n' : '') + '\n' +
         (data.get('message') || '');
       window.location.href =
-        'mailto:morselrecipeapp@gmail.com?subject=' + encodeURIComponent(subject) +
+        'mailto:' + SUPPORT_EMAIL + '?subject=' + encodeURIComponent(subject) +
         '&body=' + encodeURIComponent(body);
-      showStatus('ok', 'Opening your email app… if nothing happens, write to morselrecipeapp@gmail.com.');
+      // Reported as information, not success: the handoff can't be confirmed,
+      // and the fields are left filled so nothing is lost if it didn't happen.
+      showStatus('info', 'Opening your email app… if nothing happens, send your message to ' + SUPPORT_EMAIL + ' instead.');
       return;
     }
 
     // Configured (e.g. Formspree) → submit via fetch for a smooth inline result.
-    ev.preventDefault();
     if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
-    fetch(action, {
+    fetch(endpoint, {
       method: 'POST',
       body: new FormData(form),
       headers: { Accept: 'application/json' }
@@ -93,11 +183,11 @@
           form.reset();
           showStatus('ok', 'Thanks! Your message is on its way - we’ll reply soon.');
         } else {
-          showStatus('err', 'Something went wrong. Please email morselrecipeapp@gmail.com instead.');
+          showStatus('err', 'Something went wrong. Please email ' + SUPPORT_EMAIL + ' instead - your message is still in the form.');
         }
       })
       .catch(function () {
-        showStatus('err', 'Network error. Please email morselrecipeapp@gmail.com instead.');
+        showStatus('err', 'Network error. Please email ' + SUPPORT_EMAIL + ' instead - your message is still in the form.');
       })
       .finally(function () {
         if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Send message'; }

@@ -22,19 +22,26 @@
   --honey-300: #F6C86B;
   --honey-500: #F2A93B;
   --honey-600: #D98A1E;
+  --honey-700: #9E6207; /* honey dark enough to carry text on white (5.0:1) */
 
   --sand-50:  #FFFBF6; /* app background */
   --sand-100: #FBF3E9;
   --sand-200: #F1E6D6;
   --sand-300: #E3D3BF;
   --sand-400: #C9B7A0;
+  --sand-500: #9C8A76; /* first sand step that clears 3:1 as a control border */
 
   --ink-900: #2A211B;
   --ink-700: #4A3F36;
-  --ink-500: #7A6E64;
-  --ink-400: #9A8E82;
+  /* 500 and 400 are both darker than they look like they should be: on the
+     warm cream surfaces the old #7A6E64 / #9A8E82 landed at 2.9-3.2:1. The two
+     tiers are held one step apart so secondary and tertiary text still read as
+     different weights while both clear 4.5:1. */
+  --ink-500: #6E6359;
+  --ink-400: #786C62;
 
   --blueberry: #3A7CA5; /* drinks / fat accent from CategoryColors */
+  --blueberry-300: #7FB4D6; /* dark-theme counterpart */
 
   /* ---- Semantic (light) ---- */
   --text: var(--ink-900);
@@ -48,14 +55,53 @@
 
   --border: var(--sand-200);
   --border-strong: var(--sand-300);
+  /* Borders that identify a control (inputs, ghost buttons, the theme toggle)
+     must clear 3:1 against their surface - --border sits at 1.2:1. WCAG 1.4.11. */
+  --border-interactive: var(--sand-500);
 
   --brand: var(--paprika-500);
-  --brand-hover: var(--paprika-600);
+  --brand-hover: var(--paprika-700);
   --brand-subtle: var(--paprika-50);
   --on-brand: #FFFFFF;
+  /* Secondary text on a brand fill. Refactoring UI: never fade white to grey on
+     colour - use a hand-tinted lighter shade of the same hue. */
+  --on-brand-muted: #FEF6F2;
 
-  --accent: var(--honey-500);
-  --fresh: var(--basil-500);
+  /* Brand as small text. --brand is 3.3-3.5:1 on the cream surfaces, which is
+     fine for the 74px headline accent and the stat numerals (large text, 3:1)
+     but not for links or 13px eyebrows. */
+  --brand-text: var(--paprika-700);
+
+  /* Brand fills that carry a label. White on --paprika-500 is only 3.64:1, so
+     anything with text on it uses the deeper step instead (4.91:1). The 500 is
+     kept for decorative fills that carry nothing. WCAG 1.4.3. */
+  --brand-solid: var(--paprika-600);
+  --brand-solid-hover: var(--paprika-700);
+
+  /* Accent roles. Every hue gets a foreground and a chip tint, and both are
+     paired for dark below - components must never bind to a raw palette step,
+     which is what left two icon chips glowing at 0.77 luminance on a near-black
+     card while their siblings sat at 0.03. */
+  --accent-paprika-fg:    var(--paprika-600);
+  --accent-paprika-tint:  var(--paprika-100);
+  --accent-honey-fg:      var(--honey-700);
+  --accent-honey-tint:    color-mix(in srgb, var(--honey-300) 55%, transparent);
+  --accent-basil-fg:      var(--basil-600);
+  --accent-basil-tint:    color-mix(in srgb, var(--basil-300) 45%, transparent);
+  --accent-blueberry-fg:  var(--blueberry);
+  --accent-blueberry-tint: color-mix(in srgb, var(--blueberry) 22%, transparent);
+  --accent-neutral-fg:    var(--ink-700);
+  --accent-neutral-tint:  var(--sand-200);
+
+  /* Feedback roles. Foregrounds are paired per theme below; the tinted
+     backgrounds composite over whatever surface they sit on, so they don't
+     need a dark counterpart. */
+  --success-fg: var(--basil-600);
+  --success-bg: color-mix(in srgb, var(--basil-500) 16%, transparent);
+  --danger-fg: var(--paprika-700);
+  --danger-bg: color-mix(in srgb, var(--paprika-500) 14%, transparent);
+  --info-fg: var(--text);
+  --info-bg: var(--brand-subtle);
 
   /* ---- Radii ---- */
   --r-xs: 6px;
@@ -96,17 +142,45 @@
   --text: #F7F7F8;
   --text-body: #E3E3E5;
   --muted: #A5A5AA;
-  --faint: #7C7C82;
+  /* Dark has room for a genuine third tier; #7C7C82 sat at 4.1-4.2:1. */
+  --faint: #949499;
   --bg: #0F0F10;
-  --surface-sunken: #161618;
+  /* One step wider than #161618, which sat at 1.06:1 against the page and made
+     the alternating section rhythm disappear entirely in dark. */
+  --surface-sunken: #1A1A1D;
   --card: #1C1C1F;
   --border: #2A2A2E;
   --border-strong: #3A3A40;
+  --border-interactive: #6A6A72;
   --brand: var(--paprika-400);
   --brand-hover: var(--paprika-300);
   --brand-subtle: #2E1D16;
-  --accent: var(--honey-300);
-  --fresh: var(--basil-300);
+  /* Against near-black the 400 already clears 4.5:1, so link and eyebrow text
+     keeps the brighter step here rather than the 700. */
+  --brand-text: var(--paprika-400);
+
+  /* Accent foregrounds lighten; the tints are percentage mixes that composite
+     over the dark card on their own, so only paprika and neutral - which are
+     opaque light values in the light theme - need a counterpart here. */
+  --accent-paprika-fg:    var(--paprika-300);
+  --accent-paprika-tint:  color-mix(in srgb, var(--paprika-500) 16%, transparent);
+  --accent-honey-fg:      var(--honey-300);
+  /* Yellow and green carry more luminance per unit of mix, so these two get a
+     lighter hand in dark to keep all five chips within one perceptual step. */
+  --accent-honey-tint:    color-mix(in srgb, var(--honey-300) 22%, transparent);
+  --accent-basil-fg:      var(--basil-300);
+  --accent-basil-tint:    color-mix(in srgb, var(--basil-300) 20%, transparent);
+  --accent-blueberry-fg:  var(--blueberry-300);
+  --accent-neutral-fg:    var(--sand-300);
+  --accent-neutral-tint:  color-mix(in srgb, var(--sand-400) 18%, transparent);
+
+  /* --brand-solid deliberately does NOT lighten here: white-on-paprika-400 is
+     3.11:1, so the button keeps the deeper fill in both themes. */
+
+  /* Feedback text lightens against the dark card so success and error stay
+     readable (they were 2.09:1 and 2.95:1 when bound to the light-mode steps). */
+  --success-fg: var(--basil-300);
+  --danger-fg: var(--paprika-300);
 
   /* Elevation reads as neutral depth against near-black, not warm haze. */
   --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.40);
@@ -122,7 +196,14 @@
 *::before,
 *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  /* Header is 68px and sticky. Without this, both anchor landings and any
+     scroll-into-view from keyboard focus put their target underneath it.
+     WCAG 2.4.11. */
+  scroll-padding-top: 84px;
+}
 
 body {
   margin: 0;
@@ -137,8 +218,13 @@ body {
 
 img { max-width: 100%; display: block; }
 
-a { color: var(--brand); text-decoration: none; }
+a { color: var(--brand-text); text-decoration: none; }
 a:hover { color: var(--brand-hover); }
+/* In light the link colour is already the darkest brand step, so it can't shift
+   further on hover - prose and list links get an underline instead. */
+.doc a:hover,
+.contact-links a:hover,
+.footer-legal a:hover { text-decoration: underline; }
 
 h1, h2, h3, h4 {
   font-family: var(--font-display);
@@ -165,7 +251,7 @@ h1, h2, h3, h4 {
   font-size: 13px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--brand);
+  color: var(--brand-text);
 }
 
 .section { padding-block: clamp(56px, 9vw, 112px); }
@@ -176,7 +262,7 @@ h1, h2, h3, h4 {
 
 /* Sections are separated by alternating shades of the warm background
    (no gradients). `.tint` sits one step deeper than the base page. */
-.tint { background: var(--surface-sunken); border-block: 1px solid var(--border); }
+.tint { background: var(--surface-sunken); border-block: 1px solid var(--border-strong); }
 
 /* ---- Inline icons (flaticon-style line icons via an SVG sprite) ---- */
 .i {
@@ -209,19 +295,20 @@ h1, h2, h3, h4 {
 }
 .btn:active { transform: translateY(1px) scale(0.99); }
 .btn-primary {
-  background: var(--brand);
+  background: var(--brand-solid);
   color: var(--on-brand);
   box-shadow: var(--shadow-brand);
 }
-.btn-primary:hover { background: var(--brand-hover); color: var(--on-brand); }
+.btn-primary:hover { background: var(--brand-solid-hover); color: var(--on-brand); }
 .btn-ghost {
   background: var(--card);
   color: var(--text);
-  border-color: var(--border-strong);
+  border-color: var(--border-interactive);
   box-shadow: var(--shadow-sm);
 }
 .btn-ghost:hover { color: var(--text); border-color: var(--brand); }
 .btn-lg { padding: 11px 26px; font-size: 17px; }
+.btn-sm { padding: 7px 14px; font-size: 14px; border-radius: var(--r-sm); }
 
 /* ========================================================================= */
 /* Header                                                                    */
@@ -259,10 +346,11 @@ h1, h2, h3, h4 {
   font-weight: 500;
   font-size: 15px;
 }
-.nav-links a.link:hover { color: var(--brand); }
-.theme-toggle {
+.nav-links a.link:hover { color: var(--brand-text); }
+.theme-toggle,
+.nav-toggle {
   background: var(--card);
-  border: 1.5px solid var(--border-strong);
+  border: 1.5px solid var(--border-interactive);
   border-radius: var(--r-pill);
   width: 40px; height: 40px;
   cursor: pointer;
@@ -270,13 +358,41 @@ h1, h2, h3, h4 {
   color: var(--text);
   transition: border-color 0.15s ease;
 }
-.theme-toggle .i { width: 19px; height: 19px; }
-.theme-toggle:hover { border-color: var(--brand); }
+.theme-toggle .i,
+.nav-toggle .i { width: 19px; height: 19px; }
+.theme-toggle:hover,
+.nav-toggle:hover { border-color: var(--brand); }
+
+/* The hamburger only exists below the breakpoint where the inline links go. */
 .nav-toggle { display: none; }
+.nav-panel { display: none; }
 
 @media (max-width: 860px) {
   .nav-links .link { display: none; }
+  /* "Get the app" moves into the panel so the bar still fits at 320px. */
+  .nav-links > .btn { display: none; }
+  .nav-links { gap: var(--s-md); }
+  .nav-toggle { display: grid; }
+  .nav-panel { display: block; }
+  .nav-panel[hidden] { display: none; }
 }
+
+.nav-panel {
+  border-top: 1px solid var(--border-strong);
+  background: var(--bg);
+  padding-block: var(--s-sm) var(--s-xl);
+}
+.nav-panel .wrap { display: grid; }
+.nav-panel a.link {
+  color: var(--text-body);
+  font-weight: 500;
+  font-size: 16px;
+  padding-block: var(--s-md);
+  border-bottom: 1px solid var(--border);
+}
+.nav-panel a.link:last-of-type { border-bottom: none; }
+.nav-panel a.link:hover { color: var(--brand-text); }
+.nav-panel .btn { margin-top: var(--s-lg); }
 
 /* ========================================================================= */
 /* Hero                                                                      */
@@ -334,7 +450,9 @@ h1, h2, h3, h4 {
   .hero-sub { margin-inline: auto; }
   .hero-cta { justify-content: center; }
   .hero-note { justify-content: center; }
-  .phone-shell { grid-row: 1; margin-bottom: var(--s-lg); }
+  /* The mockup no longer takes grid-row 1: leading with it pushed the headline
+     to 518px and the second CTA off the first screen entirely. */
+  .phone-shell { width: min(460px, 88%); margin-top: var(--s-2xl); }
 }
 
 /* ---- Logo strip / stats ---- */
@@ -379,7 +497,7 @@ h1, h2, h3, h4 {
   font-weight: 700;
   font-size: 15px;
   color: var(--on-brand);
-  background: var(--brand);
+  background: var(--brand-solid);
   width: 34px; height: 34px;
   border-radius: var(--r-pill);
   display: grid; place-items: center;
@@ -421,12 +539,13 @@ h1, h2, h3, h4 {
 .feature h3 { font-size: 20px; margin-bottom: var(--s-sm); }
 .feature p { margin: 0; color: var(--muted); font-size: 15.5px; }
 
-/* Tinted icon variants pulled from the app's category / macro colors */
-.ico.paprika { background: var(--paprika-100); color: var(--paprika-600); }
-.ico.basil   { background: color-mix(in srgb, var(--basil-300) 45%, transparent); color: var(--basil-600); }
-.ico.honey   { background: color-mix(in srgb, var(--honey-300) 55%, transparent); color: var(--honey-600); }
-.ico.blueberry { background: color-mix(in srgb, var(--blueberry) 22%, transparent); color: var(--blueberry); }
-.ico.sand    { background: var(--sand-200); color: var(--ink-700); }
+/* Tinted icon variants, bound to the paired accent roles so all five chips keep
+   a comparable weight in both themes. */
+.ico.paprika   { background: var(--accent-paprika-tint);   color: var(--accent-paprika-fg); }
+.ico.basil     { background: var(--accent-basil-tint);     color: var(--accent-basil-fg); }
+.ico.honey     { background: var(--accent-honey-tint);     color: var(--accent-honey-fg); }
+.ico.blueberry { background: var(--accent-blueberry-tint); color: var(--accent-blueberry-fg); }
+.ico.sand      { background: var(--accent-neutral-tint);   color: var(--accent-neutral-fg); }
 
 @media (max-width: 900px) { .features { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 580px) { .features { grid-template-columns: 1fr; } }
@@ -434,7 +553,7 @@ h1, h2, h3, h4 {
 /* Feature - spotlight band */
 .spotlight {
   background: var(--surface-sunken);
-  border-block: 1px solid var(--border);
+  border-block: 1px solid var(--border-strong);
 }
 .spotlight-grid {
   display: grid;
@@ -454,10 +573,12 @@ h1, h2, h3, h4 {
 }
 .macro .v { font-family: var(--font-numeric); font-weight: 700; color: var(--text); }
 .macro .k { font-size: 13px; color: var(--muted); }
-.macro.cal .v { color: var(--paprika-500); }
-.macro.carb .v { color: var(--honey-600); }
-.macro.pro .v { color: var(--basil-500); }
-.macro.fat .v { color: var(--blueberry); }
+/* These are numbers, so they carry the 4.5:1 text requirement in both themes -
+   the raw palette steps failed at 2.76 (light carbs) and 3.48/3.73 (dark). */
+.macro.cal .v  { color: var(--accent-paprika-fg); }
+.macro.carb .v { color: var(--accent-honey-fg); }
+.macro.pro .v  { color: var(--accent-basil-fg); }
+.macro.fat .v  { color: var(--accent-blueberry-fg); }
 
 .feature-list { list-style: none; padding: 0; margin: var(--s-lg) 0 0; }
 .feature-list li {
@@ -470,8 +591,8 @@ h1, h2, h3, h4 {
 .feature-list .check {
   flex: none; margin-top: 2px;
   width: 22px; height: 22px; border-radius: var(--r-pill);
-  background: color-mix(in srgb, var(--basil-500) 18%, transparent);
-  color: var(--basil-600);
+  background: var(--accent-basil-tint);
+  color: var(--accent-basil-fg);
   display: grid; place-items: center;
 }
 .feature-list .check .i { width: 13px; height: 13px; stroke-width: 2.6; }
@@ -505,7 +626,10 @@ h1, h2, h3, h4 {
   display: grid; place-items: center; flex: none;
 }
 .contact-links .ci .i { width: 20px; height: 20px; }
-.contact-links a { font-weight: 600; }
+/* inline-block + padding lifts these standalone links from 20px to 26px tall.
+   They sit in a list, not in a sentence, so the WCAG 2.5.8 inline exception
+   doesn't cover them. */
+.contact-links a { font-weight: 600; display: inline-block; padding-block: 3px; }
 .contact-links small { display: block; color: var(--faint); font-weight: 400; font-size: 13px; }
 
 .form-card {
@@ -531,11 +655,14 @@ h1, h2, h3, h4 {
   font-size: 16px;
   color: var(--text);
   background: var(--surface-sunken);
-  border: 1.5px solid var(--border);
+  /* The fill is only ~1.05:1 against the card, so the border is the only thing
+     identifying the field - it has to clear 3:1 on its own. WCAG 1.4.11. */
+  border: 1.5px solid var(--border-interactive);
   border-radius: var(--r-md);
   padding: 13px 15px;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
+.field-hint { margin: var(--s-sm) 0 0; font-size: 13px; color: var(--muted); }
 .field textarea { resize: vertical; min-height: 130px; }
 .field input:focus,
 .field select:focus,
@@ -556,8 +683,11 @@ h1, h2, h3, h4 {
   display: none;
 }
 .form-status.show { display: block; }
-.form-status.ok { background: color-mix(in srgb, var(--basil-500) 16%, transparent); color: var(--basil-600); }
-.form-status.err { background: color-mix(in srgb, var(--paprika-500) 14%, transparent); color: var(--paprika-600); }
+.form-status.ok   { background: var(--success-bg); color: var(--success-fg); }
+.form-status.err  { background: var(--danger-bg);  color: var(--danger-fg); }
+/* The mailto: handoff can't be confirmed, so it reports as information rather
+   than dressing an unverifiable outcome up as success. */
+.form-status.info { background: var(--info-bg);    color: var(--info-fg); }
 
 @media (max-width: 780px) {
   .contact-grid { grid-template-columns: 1fr; }
@@ -568,17 +698,43 @@ h1, h2, h3, h4 {
 /* CTA band + Footer                                                         */
 /* ========================================================================= */
 
+/* ---- Early-access fallback ----
+   A mailto: click on a machine with no mail handler produces no navigation and
+   no event, so the button would otherwise fail silently. This panel is revealed
+   on every click so the action always leaves a visible trace, and it carries
+   the address as plain selectable text plus a copy control. */
+.cta-fallback {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-md);
+  margin-top: var(--s-md);
+  padding: var(--s-md) var(--s-lg);
+  background: var(--brand-subtle);
+  border: 1px solid color-mix(in srgb, var(--brand) 24%, transparent);
+  border-radius: var(--r-md);
+  font-size: 14px;
+  color: var(--text-body);
+  text-align: left;
+}
+.cta-fallback[hidden] { display: none; }
+.cta-fallback span { flex: 1 1 260px; }
+.cta-fallback strong { color: var(--text); white-space: nowrap; }
+.cta-band .cta-fallback { max-width: 620px; margin-inline: auto; }
+
 .cta-band { text-align: center; }
+/* The band carries text, so it takes the deeper brand step for the same reason
+   the buttons do - white on --paprika-500 tops out at 3.64:1. */
 .cta-inner {
-  background: var(--brand);
+  background: var(--brand-solid);
   border-radius: var(--r-xl);
   padding: clamp(36px, 6vw, 64px);
   box-shadow: var(--shadow-brand);
 }
-.cta-inner h2 { color: #fff; font-size: clamp(28px, 4.5vw, 46px); }
-.cta-inner p { color: color-mix(in srgb, #fff 82%, transparent); font-size: 19px; margin: var(--s-md) auto var(--s-xl); max-width: 44ch; }
-.cta-inner .btn-primary { background: #fff; color: var(--paprika-600); box-shadow: var(--shadow-md); }
-.cta-inner .btn-primary:hover { background: var(--sand-100); color: var(--paprika-700); }
+.cta-inner h2 { color: var(--on-brand); font-size: clamp(28px, 4.5vw, 46px); }
+.cta-inner p { color: var(--on-brand-muted); font-size: 19px; margin: var(--s-md) auto var(--s-xl); max-width: 44ch; }
+.cta-inner .btn-primary { background: var(--on-brand); color: var(--brand-solid); box-shadow: var(--shadow-md); }
+.cta-inner .btn-primary:hover { background: var(--sand-100); color: var(--brand-solid-hover); }
 
 .site-footer {
   border-top: 1px solid var(--border);
@@ -597,7 +753,7 @@ h1, h2, h3, h4 {
 .footer-brand span { font-family: var(--font-display); font-weight: 800; font-size: 19px; color: var(--text); }
 .footer-links { display: flex; flex-wrap: wrap; gap: var(--s-xl); }
 .footer-links a { color: var(--text-body); font-weight: 500; font-size: 15px; }
-.footer-links a:hover { color: var(--brand); }
+.footer-links a:hover { color: var(--brand-text); }
 .footer-legal { width: 100%; color: var(--faint); font-size: 13px; padding-top: var(--s-lg); border-top: 1px solid var(--border); margin-top: var(--s-md); }
 
 /* ========================================================================= */
@@ -631,10 +787,14 @@ h1, h2, h3, h4 {
 }
 .callout p { margin: 0; color: var(--text); }
 
-/* Reveal-on-scroll */
-.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
-.reveal.in { opacity: 1; transform: none; }
+/* Reveal-on-scroll.
+   Content is visible by default and only hidden once the script has confirmed
+   it is running (html.js). Hiding first meant a blocked or failed script left
+   everything below the hero permanently invisible. */
+.reveal { opacity: 1; transform: none; }
+.js .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.25s ease, transform 0.25s ease; }
+.js .reveal.in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
+  .js .reveal { opacity: 1; transform: none; transition: none; }
   html { scroll-behavior: auto; }
 }

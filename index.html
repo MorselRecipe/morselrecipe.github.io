@@ -22,6 +22,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <!-- Marks that scripting is available, so the scroll-reveal styles only ever
+       hide content the script is actually able to bring back. The timeout is the
+       backstop for the case this runs but main.js never does. -->
+  <script>
+    document.documentElement.classList.add('js');
+    setTimeout(function () {
+      if (!window.__morselReady) document.documentElement.classList.remove('js');
+    }, 3000);
+  </script>
 </head>
 <body>
 
@@ -44,6 +54,8 @@
     <symbol id="i-bug" viewBox="0 0 24 24"><path d="M9 7.13V6a3 3 0 1 1 6 0v1.13"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6Z"/><path d="M12 20v-9"/><path d="M6.5 9C4.6 8.8 3 7.1 3 5"/><path d="M6 13H2"/><path d="M3 21c0-2.1 1.7-3.9 3.8-4"/><path d="M21 5c0 2.1-1.6 3.8-3.5 4"/><path d="M22 13h-4"/><path d="M17.2 17c2.1.1 3.8 1.9 3.8 4"/></symbol>
     <symbol id="i-utensils" viewBox="0 0 24 24"><path d="M3 2v7a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V2"/><path d="M5 11v11"/><path d="M9 2v20"/><path d="M17 2c-1.7 0-3 1.8-3 4v6h6V6c0-2.2-1.3-4-3-4z"/><path d="M17 12v10"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
   </svg>
 
   <!-- ===================== Header ===================== -->
@@ -58,7 +70,17 @@
         <a class="link" href="#features">Features</a>
         <a class="link" href="#contact">Contact</a>
         <a class="link" href="privacy.html">Privacy</a>
-        <button class="theme-toggle" type="button" aria-label="Toggle theme"><svg class="i"><use href="#i-moon"></use></svg></button>
+        <button class="theme-toggle" type="button" aria-label="Toggle theme"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-moon"></use></svg></button>
+        <a class="btn btn-primary" href="#contact">Get the app</a>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-menu"></use></svg></button>
+      </nav>
+    </div>
+    <div class="nav-panel" id="mobile-nav" hidden>
+      <nav class="wrap" aria-label="Menu">
+        <a class="link" href="#how">How it works</a>
+        <a class="link" href="#features">Features</a>
+        <a class="link" href="#contact">Contact</a>
+        <a class="link" href="privacy.html">Privacy</a>
         <a class="btn btn-primary" href="#contact">Get the app</a>
       </nav>
     </div>
@@ -73,9 +95,14 @@
           <h1>Save it once.<br />Cook it <span class="accent">forever.</span></h1>
           <p class="hero-sub">Paste a link from Instagram, TikTok or any recipe blog - Morsel pulls out the ingredients, steps and macros for you, and keeps them on your phone.</p>
           <div class="hero-cta">
-            <a class="btn btn-primary btn-lg" href="mailto:morselrecipeapp@gmail.com?subject=Early%20access&amp;body=Hi%20Morsel%20team%2C%0A%0AI%20would%20like%20to%20join%20Morsel%20early%20access.%0A%0AGoogle%20Play%20Store%20email%3A%0A%0A%0A%28Add%20the%20email%20address%20linked%20to%20your%20Google%20Play%20account%20above%20-%20that%20is%20how%20we%20add%20you%20to%20the%20test%20track.%29%0A%0AThanks%21">Get early access</a>
+            <a class="btn btn-primary btn-lg" href="mailto:morselrecipeapp@gmail.com?subject=Early%20access&amp;body=Hi%20Morsel%20team%2C%0A%0AI%20would%20like%20to%20join%20Morsel%20early%20access.%0A%0AGoogle%20Play%20Store%20email%3A%0A%0A%0A%28Add%20the%20email%20address%20linked%20to%20your%20Google%20Play%20account%20above%20-%20that%20is%20how%20we%20add%20you%20to%20the%20test%20track.%29%0A%0AThanks%21"
+               data-early-access data-fallback="#hero-fallback">Get early access</a>
             <a class="btn btn-ghost btn-lg" href="#how">See how it works</a>
           </div>
+          <p class="cta-fallback" id="hero-fallback" role="status" hidden>
+            <span>No email app opened? Send your Google Play Store email to <strong>morselrecipeapp@gmail.com</strong> and we'll add you to the test track.</span>
+            <button class="btn btn-primary btn-sm" type="button" data-copy="morselrecipeapp@gmail.com">Copy address</button>
+          </p>
           <p class="hero-note">Recipes live on your device - browse and cook fully offline.</p>
         </div>
 
@@ -248,12 +275,17 @@
           Contact form.
           To make this actually deliver mail on GitHub Pages:
             1. Create a free form at https://formspree.io (or similar).
-            2. Replace YOUR_FORM_ID below with your endpoint.
-          Until then, the form gracefully falls back to opening the visitor's
-          email app pre-filled (handled in assets/js/main.js).
+            2. Put your endpoint in data-endpoint below. Leave it empty and the
+               form falls back to a pre-filled email draft (assets/js/main.js).
+
+          `action` stays a mailto: on purpose. It is only ever used when the
+          script doesn't run, and it must not point at an endpoint that isn't
+          live - a POST to a dead URL navigates away and destroys whatever the
+          visitor typed.
         -->
         <form class="form-card reveal" id="contact-form"
-              action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+              data-endpoint=""
+              action="mailto:morselrecipeapp@gmail.com" method="POST" enctype="text/plain">
           <div class="field-row">
             <div class="field">
               <label for="name">Name</label>
@@ -268,15 +300,26 @@
             <label for="topic">Topic</label>
             <select id="topic" name="topic">
               <option>General question</option>
+              <option>Early access</option>
               <option>Bug report</option>
               <option>Feature request</option>
               <option>Privacy &amp; data</option>
             </select>
           </div>
+          <!-- Revealed only for the Early access topic, so the address we need
+               is collected in a field rather than dictated into a mail body. -->
+          <div class="field" id="play-field" hidden>
+            <label for="play-email">Google Play Store email</label>
+            <input id="play-email" name="play_email" type="email" autocomplete="email" placeholder="you@gmail.com" />
+            <p class="field-hint">The address linked to your Google Play account - that's how we add you to the test track.</p>
+          </div>
           <div class="field">
             <label for="message">Message</label>
             <textarea id="message" name="message" required placeholder="What's on your mind?"></textarea>
           </div>
+          <noscript>
+            <p class="form-hint">JavaScript is off, so sending will hand this to your email app. If nothing opens, write to morselrecipeapp@gmail.com instead - your message stays in the fields above either way.</p>
+          </noscript>
           <button class="btn btn-primary btn-lg" type="submit">Send message</button>
           <p class="form-hint">We reply within a couple of days. No spam, ever.</p>
           <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
@@ -290,8 +333,13 @@
         <div class="cta-inner reveal">
           <h2>Stop losing recipes to the algorithm</h2>
           <p>Save the ones you love once - and keep them, organised and offline, for good.</p>
-          <a class="btn btn-primary btn-lg" href="mailto:morselrecipeapp@gmail.com?subject=Early%20access&amp;body=Hi%20Morsel%20team%2C%0A%0AI%20would%20like%20to%20join%20Morsel%20early%20access.%0A%0AGoogle%20Play%20Store%20email%3A%0A%0A%0A%28Add%20the%20email%20address%20linked%20to%20your%20Google%20Play%20account%20above%20-%20that%20is%20how%20we%20add%20you%20to%20the%20test%20track.%29%0A%0AThanks%21">Get early access</a>
+          <a class="btn btn-primary btn-lg" href="mailto:morselrecipeapp@gmail.com?subject=Early%20access&amp;body=Hi%20Morsel%20team%2C%0A%0AI%20would%20like%20to%20join%20Morsel%20early%20access.%0A%0AGoogle%20Play%20Store%20email%3A%0A%0A%0A%28Add%20the%20email%20address%20linked%20to%20your%20Google%20Play%20account%20above%20-%20that%20is%20how%20we%20add%20you%20to%20the%20test%20track.%29%0A%0AThanks%21"
+             data-early-access data-fallback="#cta-fallback">Get early access</a>
         </div>
+        <p class="cta-fallback" id="cta-fallback" role="status" hidden>
+          <span>No email app opened? Send your Google Play Store email to <strong>morselrecipeapp@gmail.com</strong> and we'll add you to the test track.</span>
+          <button class="btn btn-primary btn-sm" type="button" data-copy="morselrecipeapp@gmail.com">Copy address</button>
+        </p>
       </div>
     </section>
 

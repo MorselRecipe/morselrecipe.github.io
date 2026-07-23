@@ -43,12 +43,19 @@ The form works out of the box by **opening the visitor's email app pre-filled** 
 no backend required. To collect submissions to your inbox instead:
 
 1. Create a free form at [Formspree](https://formspree.io) (or similar).
-2. In `index.html`, replace `YOUR_FORM_ID` in the form's `action` with your endpoint.
+2. In `index.html`, put your endpoint in the form's **`data-endpoint`** attribute.
 
-`assets/js/main.js` detects the configured endpoint and submits via `fetch`, showing
-an inline success/error message. Until it's configured, it falls back to the
-`mailto:` draft. Update the fallback address (`hello@morselapp.com`) in both
-`index.html`/`privacy.html` and `main.js` to your real support email.
+`assets/js/main.js` submits via `fetch` when `data-endpoint` is set, showing an
+inline success/error message. While it's empty, the script falls back to a
+`mailto:` draft and leaves the fields filled.
+
+> **Don't put the endpoint in `action`.** That attribute is only used when the
+> script doesn't run, so it stays a `mailto:` deliberately. Pointing it at an
+> endpoint that isn't live means a no-JS submit navigates to a 404 and throws
+> away whatever the visitor typed.
+
+The support address appears in `index.html`, `privacy.html`, and as
+`SUPPORT_EMAIL` in `main.js` - change all three together.
 
 ## Local preview
 
