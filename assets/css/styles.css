@@ -79,6 +79,8 @@
   --shadow-md: 0 6px 16px rgba(74, 63, 54, 0.10);
   --shadow-lg: 0 14px 32px rgba(74, 63, 54, 0.14);
   --shadow-brand: 0 8px 20px rgba(232, 85, 45, 0.28);
+  --drop-lg: drop-shadow(0 22px 38px rgba(74, 63, 54, 0.24));
+  --drop-md: drop-shadow(0 18px 30px rgba(74, 63, 54, 0.20));
 
   /* ---- Type ---- */
   --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
@@ -88,23 +90,30 @@
   --maxw: 1120px;
 }
 
-/* Light is the default theme. Warm dark applies only when the user opts in
-   via the theme toggle (data-theme='dark'), mirroring the app's dark palette. */
+/* Light is the default theme. Dark applies only when the user opts in via the
+   theme toggle (data-theme='dark'): neutral near-black surfaces, warm brand. */
 :root[data-theme='dark'] {
-  --text: #FCF6EF;
-  --text-body: #EADFD3;
-  --muted: #B3A597;
-  --faint: #8A7D71;
-  --bg: #1B1511;
-  --surface-sunken: #241C17;
-  --card: #2A211B;
-  --border: #3A2F27;
-  --border-strong: #4A3F36;
+  --text: #F7F7F8;
+  --text-body: #E3E3E5;
+  --muted: #A5A5AA;
+  --faint: #7C7C82;
+  --bg: #0F0F10;
+  --surface-sunken: #161618;
+  --card: #1C1C1F;
+  --border: #2A2A2E;
+  --border-strong: #3A3A40;
   --brand: var(--paprika-400);
   --brand-hover: var(--paprika-300);
-  --brand-subtle: #3A241B;
+  --brand-subtle: #2E1D16;
   --accent: var(--honey-300);
   --fresh: var(--basil-300);
+
+  /* Elevation reads as neutral depth against near-black, not warm haze. */
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.40);
+  --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.48);
+  --shadow-lg: 0 14px 32px rgba(0, 0, 0, 0.56);
+  --drop-lg: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.60));
+  --drop-md: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.52));
 }
 
 /* ========================================================================= */
@@ -312,7 +321,7 @@ h1, h2, h3, h4 {
 }
 .phone-shell img {
   width: 100%;
-  filter: drop-shadow(0 22px 38px rgba(74, 63, 54, 0.24));
+  filter: var(--drop-lg);
 }
 
 .badge-row {
@@ -469,7 +478,7 @@ h1, h2, h3, h4 {
 .media { justify-self: center; }
 .media img {
   width: min(300px, 74vw);
-  filter: drop-shadow(0 18px 30px rgba(74, 63, 54, 0.20));
+  filter: var(--drop-md);
 }
 @media (max-width: 780px) {
   .spotlight-grid { grid-template-columns: 1fr; }
