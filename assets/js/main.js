@@ -79,48 +79,6 @@
 
   var SUPPORT_EMAIL = 'morselrecipeapp@gmail.com';
 
-  /* ---- Copy-to-clipboard ---- */
-  function copyText(text, btn) {
-    function done() {
-      if (!btn) return;
-      if (!btn.getAttribute('data-label')) btn.setAttribute('data-label', btn.textContent);
-      btn.textContent = 'Copied';
-      setTimeout(function () { btn.textContent = btn.getAttribute('data-label'); }, 2000);
-    }
-    function legacy() {
-      var ta = document.createElement('textarea');
-      ta.value = text;
-      ta.setAttribute('readonly', '');
-      ta.style.position = 'fixed';
-      ta.style.opacity = '0';
-      document.body.appendChild(ta);
-      ta.select();
-      try { document.execCommand('copy'); done(); } catch (e) {}
-      document.body.removeChild(ta);
-    }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(done, legacy);
-    } else {
-      legacy();
-    }
-  }
-
-  document.querySelectorAll('[data-copy]').forEach(function (btn) {
-    btn.addEventListener('click', function () { copyText(btn.getAttribute('data-copy'), btn); });
-  });
-
-  /* ---- Early access: never fail silently ----
-     A mailto: click on a device with no mail handler fires no navigation and no
-     error, so the primary CTA would appear to do nothing at all. Revealing the
-     fallback on every click guarantees the action always produces a visible
-     result, and leaves the address on screen if the handoff didn't happen. */
-  document.querySelectorAll('[data-early-access]').forEach(function (el) {
-    el.addEventListener('click', function () {
-      var panel = document.querySelector(el.getAttribute('data-fallback') || '');
-      if (panel) panel.hidden = false;
-    });
-  });
-
   /* ---- Contact form ---- */
   var form = document.getElementById('contact-form');
   if (!form) return;
@@ -133,19 +91,6 @@
     status.className = 'form-status show ' + kind;
   }
 
-  /* ---- Early-access topic reveals the Play Store email field ---- */
-  var topic = document.getElementById('topic');
-  var playField = document.getElementById('play-field');
-  var playEmail = document.getElementById('play-email');
-  if (topic && playField) {
-    var syncPlayField = function () {
-      playField.hidden = topic.value !== 'Early access';
-      if (playField.hidden && playEmail) playEmail.value = '';
-    };
-    topic.addEventListener('change', syncPlayField);
-    syncPlayField();
-  }
-
   form.addEventListener('submit', function (ev) {
     // The live endpoint lives in data-endpoint, never in `action` - see the
     // comment on the <form> in index.html.
@@ -156,11 +101,9 @@
     if (!endpoint) {
       var data = new FormData(form);
       var subject = 'Morsel contact - ' + (data.get('topic') || 'General');
-      var play = data.get('play_email');
       var body =
         'Name: ' + (data.get('name') || '') + '\n' +
-        'Email: ' + (data.get('email') || '') + '\n' +
-        (play ? 'Google Play Store email: ' + play + '\n' : '') + '\n' +
+        'Email: ' + (data.get('email') || '') + '\n\n' +
         (data.get('message') || '');
       window.location.href =
         'mailto:' + SUPPORT_EMAIL + '?subject=' + encodeURIComponent(subject) +
