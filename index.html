@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Morsel - Save it once. Cook it forever.</title>
   <meta name="description" content="Paste a link from Instagram, TikTok or any recipe blog - Morsel pulls out the ingredients, steps and macros, and keeps every recipe on your phone for offline cooking." />
-  <meta name="theme-color" content="#E8552D" />
+  <meta name="theme-color" content="#E8562E" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="Morsel - Save it once. Cook it forever." />
   <meta property="og:description" content="Save recipes from any link. Ingredients, steps and macros, extracted automatically and kept offline on your phone." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="assets/img/icon.png" />
+  <meta property="og:image" content="assets/img/og-image.png" />
 
   <link rel="icon" href="assets/img/favicon.png" />
-  <link rel="apple-touch-icon" href="assets/img/icon.png" />
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
 
   <!-- Design-system fonts: Bricolage Grotesque (display), Inter (UI), Space Grotesk (numerals) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -58,18 +58,21 @@
     <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
     <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
     <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"/><path d="M19 15l.7 1.8L21.5 17.5 19.7 18.2 19 20l-.7-1.8L16.5 17.5l1.8-.7L19 15z"/></symbol>
   </svg>
 
   <!-- ===================== Header ===================== -->
   <header class="site-header">
     <div class="wrap nav">
       <a class="brand" href="#top">
-        <img src="assets/img/logo-mark.svg" alt="" />
+        <img src="assets/img/logo-mascot.png" alt="" />
         Morsel
       </a>
       <nav class="nav-links" aria-label="Primary">
         <a class="link" href="#how">How it works</a>
         <a class="link" href="#features">Features</a>
+        <a class="link" href="#plus">Plus</a>
         <a class="link" href="#contact">Contact</a>
         <a class="link" href="privacy.html">Privacy</a>
         <button class="theme-toggle" type="button" aria-label="Toggle theme"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-moon"></use></svg></button>
@@ -81,6 +84,7 @@
       <nav class="wrap" aria-label="Menu">
         <a class="link" href="#how">How it works</a>
         <a class="link" href="#features">Features</a>
+        <a class="link" href="#plus">Plus</a>
         <a class="link" href="#contact">Contact</a>
         <a class="link" href="privacy.html">Privacy</a>
         <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.savr.myapp&amp;pcampaignid=web_share" target="_blank" rel="noopener">Get the app</a>
@@ -210,6 +214,11 @@
             <h3>Light &amp; warm dark</h3>
             <p>A warm, food-forward theme in light and dark, with metric or imperial units - your preference, remembered.</p>
           </article>
+          <article class="feature reveal">
+            <div class="ico sand"><svg class="i"><use href="#i-globe"></use></svg></div>
+            <h3>Speaks your language</h3>
+            <p>The app interface is translated into multiple languages, while each recipe stays faithful to its original source.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -229,7 +238,7 @@
           </div>
         </div>
         <div class="media reveal">
-          <img src="assets/img/morsel-macros.png" alt="Morsel recipe list showing per-recipe macros" />
+          <img src="assets/img/morsel-macros.png" alt="A Morsel recipe screen showing the per-serving macro breakdown and a USDA cross-check" />
         </div>
       </div>
     </section>
@@ -250,6 +259,27 @@
             <li><span class="check"><svg class="i"><use href="#i-check"></use></svg></span> Missing photos auto-backfilled and cached locally</li>
             <li><span class="check"><svg class="i"><use href="#i-check"></use></svg></span> Universal search across every field of every recipe</li>
           </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Morsel Plus (coming soon) ===================== -->
+    <section class="section tint" id="plus">
+      <div class="wrap spotlight-grid">
+        <div class="reveal">
+          <span class="eyebrow"><svg class="i" style="vertical-align:-3px;margin-right:6px"><use href="#i-sparkle"></use></svg>Morsel Plus · Coming soon</span>
+          <h2 style="font-size:clamp(28px,4vw,42px);margin:16px 0 12px;">A little more Morsel, for the everyday cook</h2>
+          <p style="color:var(--muted);font-size:18px;">The Morsel you love stays free. Morsel Plus is an optional upgrade we're building for people who want tracking, sync and smarter help in the kitchen.</p>
+          <ul class="feature-list">
+            <li><span class="check"><svg class="i"><use href="#i-check"></use></svg></span> Calorie &amp; water tracking to hit your daily goals</li>
+            <li><span class="check"><svg class="i"><use href="#i-check"></use></svg></span> Optional account with sync &amp; backup across your devices</li>
+            <li><span class="check"><svg class="i"><use href="#i-check"></use></svg></span> An AI kitchen assistant and "adjust to taste" tweaks</li>
+            <li><span class="check"><svg class="i"><use href="#i-check"></use></svg></span> AI meal planner, grocery lists and advanced nutrition</li>
+          </ul>
+          <p class="hero-note">Still in the works - the free app needs no account and keeps your recipes on-device.</p>
+        </div>
+        <div class="media reveal">
+          <img src="assets/img/morsel-plus.png" alt="The Morsel mascot presenting Morsel Plus" />
         </div>
       </div>
     </section>
@@ -352,12 +382,13 @@
   <footer class="site-footer">
     <div class="wrap footer-grid">
       <a class="footer-brand" href="#top">
-        <img src="assets/img/logo-mark.svg" alt="" />
+        <img src="assets/img/logo-mascot.png" alt="" />
         <span>Morsel</span>
       </a>
       <nav class="footer-links" aria-label="Footer">
         <a href="#how">How it works</a>
         <a href="#features">Features</a>
+        <a href="#plus">Plus</a>
         <a href="#contact">Contact</a>
         <a href="privacy.html">Privacy policy</a>
       </nav>

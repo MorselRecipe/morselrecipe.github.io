@@ -339,7 +339,7 @@ h1, h2, h3, h4 {
   letter-spacing: -0.02em;
 }
 .brand:hover { color: var(--text); }
-.brand img { width: 34px; height: 34px; border-radius: 9px; box-shadow: var(--shadow-sm); }
+.brand img { width: 36px; height: 36px; object-fit: contain; }
 .nav-links { display: flex; align-items: center; gap: var(--s-2xl); }
 .nav-links a.link {
   color: var(--text-body);
@@ -788,7 +788,7 @@ h1, h2, h3, h4 {
   justify-content: space-between;
 }
 .footer-brand { display: flex; align-items: center; gap: 10px; }
-.footer-brand img { width: 30px; height: 30px; border-radius: 8px; }
+.footer-brand img { width: 32px; height: 32px; object-fit: contain; }
 .footer-brand span { font-family: var(--font-display); font-weight: 800; font-size: 19px; color: var(--text); }
 .footer-links { display: flex; flex-wrap: wrap; gap: var(--s-xl); }
 .footer-links a { color: var(--text-body); font-weight: 500; font-size: 15px; }

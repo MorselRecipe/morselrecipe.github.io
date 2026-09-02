@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Privacy Policy - Morsel</title>
   <meta name="description" content="How Morsel handles your data: recipes stored on your device, links processed only to extract recipe content." />
-  <meta name="theme-color" content="#E8552D" />
+  <meta name="theme-color" content="#E8562E" />
   <link rel="icon" href="assets/img/favicon.png" />
-  <link rel="apple-touch-icon" href="assets/img/icon.png" />
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
@@ -38,7 +38,7 @@
   <header class="site-header">
     <div class="wrap nav">
       <a class="brand" href="index.html#top">
-        <img src="assets/img/logo-mark.svg" alt="" />
+        <img src="assets/img/logo-mascot.png" alt="" />
         Morsel
       </a>
       <nav class="nav-links" aria-label="Primary">
@@ -47,7 +47,7 @@
         <a class="link" href="index.html#contact">Contact</a>
         <a class="link" href="privacy.html" aria-current="page">Privacy</a>
         <button class="theme-toggle" type="button" aria-label="Toggle theme"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-moon"></use></svg></button>
-        <a class="btn btn-primary" href="index.html#contact">Get the app</a>
+        <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.savr.myapp&amp;pcampaignid=web_share" target="_blank" rel="noopener">Get the app</a>
         <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-menu"></use></svg></button>
       </nav>
     </div>
@@ -57,7 +57,7 @@
         <a class="link" href="index.html#features">Features</a>
         <a class="link" href="index.html#contact">Contact</a>
         <a class="link" href="privacy.html" aria-current="page">Privacy</a>
-        <a class="btn btn-primary" href="index.html#contact">Get the app</a>
+        <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.savr.myapp&amp;pcampaignid=web_share" target="_blank" rel="noopener">Get the app</a>
       </nav>
     </div>
   </header>
@@ -65,7 +65,7 @@
   <main>
     <article class="wrap doc">
       <h1>Privacy Policy</h1>
-      <p class="updated">Last updated: 6 July 2026</p>
+      <p class="updated">Last updated: 2 September 2026</p>
 
       <p class="lead">Morsel is built to keep your recipes on your phone. We collect as little as possible, we don't sell your data, and we never show you ads. This policy explains exactly what happens to the information you give us.</p>
 
@@ -91,11 +91,21 @@
         <li><strong>The extracted page content.</strong> The recipe text and images found at that link are processed to produce structured recipe data and macro estimates, which are returned to your device.</li>
       </ul>
 
+      <h3>Optional account, sync &amp; Morsel Plus</h3>
+      <p>Morsel works fully without an account, and the core app stays free. Some optional features - grouped under <strong>Morsel Plus</strong> - involve a little more data, and <em>only if you choose to use them</em>:</p>
+      <ul>
+        <li><strong>Account (optional).</strong> You can create an account by signing in with Google or an email and password. We use <strong>Supabase</strong> to manage sign-in and store your account. An account is not required to save, browse or cook recipes; it exists so a Plus subscription and your library can follow you to a new device.</li>
+        <li><strong>Sync &amp; backup (optional).</strong> If you sign in, your recipes and preferences can be backed up and synced to your other devices through Supabase. Without an account, everything stays on your device as described above.</li>
+        <li><strong>Subscriptions (optional).</strong> If you subscribe to Morsel Plus, payments are handled by <strong>RevenueCat</strong> and the app store (Google Play or the App Store). We receive your subscription status, not your card details - those are handled by the store and payment processor.</li>
+      </ul>
+      <p class="callout" style="font-size:15px;">Some of these features are still rolling out. Where a feature isn't yet available in your version of the app, the data handling above simply doesn't apply until it is.</p>
+
       <h3>What we do <em>not</em> collect</h3>
       <ul>
-        <li>We do not require an account, email or password to use the app.</li>
+        <li>You can use the app without an account - creating one is entirely optional.</li>
         <li>We do not sell, rent or share your data with advertisers.</li>
         <li>We do not track you across other apps or websites.</li>
+        <li>We do not handle or store your payment card details.</li>
       </ul>
 
       <h2>3. Third-party services we use</h2>
@@ -105,8 +115,10 @@
         <li><strong>Google (Gemini)</strong> - used to convert scraped page content into structured recipe data and estimate macros.</li>
         <li><strong>Pexels</strong> - used to find a relevant stock photo when a recipe has no image of its own.</li>
         <li><strong>USDA FoodData Central</strong> - used, only if you opt in, to cross-check macros against public nutrition data.</li>
+        <li><strong>Supabase</strong> - used, only if you create an account, to manage sign-in and to store and sync your account data.</li>
+        <li><strong>RevenueCat</strong> - used, only if you subscribe to Morsel Plus, to process and manage the subscription together with your app store.</li>
       </ul>
-      <p>These providers process the recipe link and content solely to perform the extraction, and each handles data under its own privacy policy.</p>
+      <p>These providers process only the data needed for their task, and each handles data under its own privacy policy.</p>
 
       <h2>4. How we use your information</h2>
       <ul>
@@ -119,11 +131,13 @@
 
       <h2>5. Data retention</h2>
       <p>Your recipes, folders, profile and preferences remain on your device until you delete them or uninstall the app. Links and page content sent for extraction are processed transiently to fulfil your request and are not kept as a personal profile of you. Deleting a recipe removes it, and its cached image, from your device.</p>
+      <p>If you create an account, any data you sync is retained until you delete it or ask us to close your account; email <a href="mailto:morselrecipeapp@gmail.com">morselrecipeapp@gmail.com</a> to have your account and synced data removed. Subscription records held by RevenueCat and your app store are retained under their own policies.</p>
 
       <h2>6. Your choices &amp; rights</h2>
       <ul>
         <li><strong>Delete anything, anytime.</strong> Remove individual recipes or folders in the app, or uninstall to remove everything stored locally.</li>
-        <li><strong>Opt-in features.</strong> The USDA macro cross-check runs only when you choose to use it.</li>
+        <li><strong>Opt-in features.</strong> The USDA macro cross-check, creating an account, cloud sync and Morsel Plus all run only when you choose to use them.</li>
+        <li><strong>Close your account.</strong> If you created one, email us to delete your account and any synced data.</li>
         <li><strong>Offline use.</strong> Once saved, recipes can be browsed and cooked with no network connection at all.</li>
         <li><strong>Access &amp; questions.</strong> Email <a href="mailto:morselrecipeapp@gmail.com">morselrecipeapp@gmail.com</a> and we'll help with any privacy request.</li>
       </ul>
@@ -147,7 +161,7 @@
   <footer class="site-footer">
     <div class="wrap footer-grid">
       <a class="footer-brand" href="index.html#top">
-        <img src="assets/img/logo-mark.svg" alt="" />
+        <img src="assets/img/logo-mascot.png" alt="" />
         <span>Morsel</span>
       </a>
       <nav class="footer-links" aria-label="Footer">
