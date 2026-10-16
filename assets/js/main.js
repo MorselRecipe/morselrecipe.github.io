@@ -60,6 +60,39 @@
     });
   }
 
+  /* ---- Feature tabs ----
+     Panels are all visible in the markup; tabbing is layered on here so the
+     features still read as a stacked list if this never runs. */
+  var featureTabs = document.querySelector('.feature-tabs');
+  if (featureTabs) {
+    var tabs = Array.prototype.slice.call(featureTabs.querySelectorAll('[role="tab"]'));
+    var selectTab = function (tab, focus) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      if (focus) {
+        tab.focus();
+        tab.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      }
+    };
+    featureTabs.classList.add('is-tabbed');
+    selectTab(tabs[0], false);
+    tabs.forEach(function (tab, i) {
+      tab.addEventListener('click', function () { selectTab(tab, false); });
+      tab.addEventListener('keydown', function (ev) {
+        var next = null;
+        if (ev.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+        else if (ev.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
+        else if (ev.key === 'Home') next = tabs[0];
+        else if (ev.key === 'End') next = tabs[tabs.length - 1];
+        if (next) { ev.preventDefault(); selectTab(next, true); }
+      });
+    });
+  }
+
   /* ---- Reveal on scroll ---- */
   var revealables = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && revealables.length) {

@@ -549,33 +549,114 @@ h1, h2, h3, h4 {
 /* Features showcase                                                         */
 /* ========================================================================= */
 
-.features {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--s-xl);
-}
-.feature {
+/* Feature explorer - grouped tabs (see the note in index.html) */
+.feature-tabs {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: var(--r-lg);
-  padding: var(--s-2xl);
+  border-radius: var(--r-xl);
   box-shadow: var(--shadow-sm);
-  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  padding: var(--s-lg);
 }
-.feature:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--border-strong);
+.ftab-bar { display: none; }
+.is-tabbed .ftab-bar {
+  display: flex;
+  gap: var(--s-sm);
+  padding: var(--s-xs);
+  background: var(--surface-sunken);
+  border-radius: var(--r-lg);
+  overflow-x: auto;
+  scrollbar-width: none;
 }
-.feature .ico {
-  width: 52px; height: 52px;
+.ftab-bar::-webkit-scrollbar { display: none; }
+.ftab {
+  flex: 1 0 auto;
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--s-sm);
+  padding: 10px 16px;
+  border: 0;
+  border-radius: var(--r-md);
+  background: transparent;
+  color: var(--muted);
+  font: inherit; font-weight: 600; font-size: 15px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+.ftab .i { width: 18px; height: 18px; }
+.ftab:hover { color: var(--text); }
+.ftab:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.ftab[aria-selected='true'] {
+  background: var(--card);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+}
+.ftab .count {
+  font-family: var(--font-numeric);
+  font-size: 12px;
+  min-width: 20px;
+  padding: 1px 6px;
+  border-radius: var(--r-pill);
+  background: var(--border);
+  color: var(--muted);
+}
+.ftab[aria-selected='true'] .count { background: var(--accent-paprika-tint); color: var(--accent-paprika-fg); }
+
+.fpanel { padding: var(--s-2xl) var(--s-lg) var(--s-lg); }
+.fpanel + .fpanel { border-top: 1px dashed var(--border); }
+.is-tabbed .fpanel + .fpanel { border-top: 0; }
+/* Every panel shares one grid cell, so the box is always as tall as the
+   longest group and switching tabs never shifts the page below. */
+.is-tabbed .fpanel-stack { display: grid; }
+.is-tabbed .fpanel { grid-area: 1 / 1; }
+.is-tabbed .fpanel[hidden] { display: block; visibility: hidden; animation: none; }
+.is-tabbed .fpanel { animation: fpanel-in 0.22s ease; }
+@keyframes fpanel-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+.fpanel-intro { margin-bottom: var(--s-xl); }
+.fpanel-intro h3 { font-size: 22px; margin-bottom: var(--s-xs); }
+.fpanel-intro p { margin: 0; color: var(--muted); }
+/* The selected tab already names the group, so the heading is kept for
+   screen readers only. */
+.is-tabbed .fpanel-intro h3 {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+.frows {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--s-sm) var(--s-3xl);
+}
+.frow {
+  display: flex; gap: var(--s-lg); align-items: flex-start;
+  padding: var(--s-md);
+  margin-inline: calc(-1 * var(--s-md));
+  border-radius: var(--r-md);
+  transition: background 0.18s ease;
+}
+.frow:hover { background: var(--surface-sunken); }
+.frow .ico {
+  flex: none;
+  width: 44px; height: 44px;
   border-radius: var(--r-md);
   display: grid; place-items: center;
-  margin-bottom: var(--s-lg);
 }
-.feature .ico .i { width: 26px; height: 26px; stroke-width: 1.9; }
-.feature h3 { font-size: 20px; margin-bottom: var(--s-sm); }
-.feature p { margin: 0; color: var(--muted); font-size: 15.5px; }
+.frow .ico .i { width: 22px; height: 22px; stroke-width: 1.9; }
+.frow h4 { font-size: 17px; margin: 2px 0 var(--s-xs); }
+.frow p { margin: 0; color: var(--muted); font-size: 15px; }
+
+@media (max-width: 760px) { .frows { grid-template-columns: 1fr; } }
+@media (max-width: 580px) {
+  .feature-tabs { padding: var(--s-sm); }
+  .fpanel { padding: var(--s-xl) var(--s-md) var(--s-md); }
+  .ftab { padding: 9px 12px; }
+}
+/* Four tabs don't fit one row on a phone; a 2x2 grid keeps every group
+   visible instead of hiding some behind a sideways scroll. */
+@media (max-width: 700px) {
+  .is-tabbed .ftab-bar { display: grid; grid-template-columns: 1fr 1fr; }
+  .ftab { min-width: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .is-tabbed .fpanel { animation: none; } }
 
 /* Tinted icon variants, bound to the paired accent roles so all five chips keep
    a comparable weight in both themes. */
@@ -585,8 +666,19 @@ h1, h2, h3, h4 {
 .ico.blueberry { background: var(--accent-blueberry-tint); color: var(--accent-blueberry-fg); }
 .ico.sand      { background: var(--accent-neutral-tint);   color: var(--accent-neutral-fg); }
 
-@media (max-width: 900px) { .features { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 580px) { .features { grid-template-columns: 1fr; } }
+/* Marks a feature as part of Morsel Plus */
+.plus-tag {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--accent-paprika-tint);
+  color: var(--accent-paprika-fg);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  vertical-align: 1px;
+}
 
 /* Feature - spotlight band */
 .spotlight {

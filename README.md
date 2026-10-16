@@ -13,6 +13,7 @@ neutrals and warm "ink" text, with Bricolage Grotesque / Inter / Space Grotesk t
 |------|----------|
 | `index.html` | Hero, "how it works", **feature showcase**, spotlight sections, **contact form**, CTA |
 | `privacy.html` | Full **privacy policy** |
+| `terms.html` | **Terms of use** |
 
 Design tokens live in `assets/css/styles.css`; behaviour (theme toggle, scroll
 reveal, contact form) in `assets/js/main.js`.
