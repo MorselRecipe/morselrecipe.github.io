@@ -110,6 +110,34 @@
   --r-lg: 20px;
   --r-xl: 28px;
   --r-pill: 999px;
+  /* The one radius every button uses (app: Radii.button). Buttons are soft
+     rects, never pills. */
+  --r-button: 14px;
+  /* Selectable chips, filters and segments (app: Radii.chip). */
+  --r-chip: 10px;
+
+  /* ---- iOS layer (app: constants/theme.ts) ----
+     Translucent layers tinted from ink/sand so they stay warm. `fill` backs
+     secondary buttons and segments in place of an outline; `separator` is the
+     hairline between rows and under glass chrome. */
+  --separator: rgba(74, 63, 54, 0.16);
+  --fill: rgba(122, 110, 100, 0.11);
+  --fill-strong: rgba(122, 110, 100, 0.18);
+  /* Glass: the tint laid over a blur, plus the bright inner edge that makes a
+     glass panel read as a raised sheet. `glass-fallback` is near-opaque for
+     browsers with no backdrop-filter. */
+  --glass: rgba(255, 251, 246, 0.72);
+  --glass-fallback: rgba(255, 251, 246, 0.96);
+  --glass-border: rgba(255, 255, 255, 0.7);
+  /* Cards carry depth through soft ambient shadow, not an outline. The edge is
+     a whisper so white cards don't dissolve into the cream page. */
+  --card-edge: rgba(74, 63, 54, 0.07);
+
+  /* Macro accents (app: MacroColors). Fat is a golden oil amber, not blue. */
+  --macro-cal: var(--paprika-500);
+  --macro-carb: var(--honey-600);
+  --macro-pro: var(--basil-500);
+  --macro-fat: var(--honey-500);
 
   /* ---- Spacing (4px base) ---- */
   --s-xs: 4px;
@@ -120,10 +148,12 @@
   --s-2xl: 24px;
   --s-3xl: 32px;
 
-  /* ---- Warm-tinted elevation (never pure black) ---- */
+  /* ---- Warm-tinted elevation (never pure black) ----
+     md/lg are wide and low-opacity like iOS's ambient shadows: depth reads as
+     light falling on a surface, not a hard drop under it. */
   --shadow-sm: 0 2px 6px rgba(74, 63, 54, 0.08);
-  --shadow-md: 0 6px 16px rgba(74, 63, 54, 0.10);
-  --shadow-lg: 0 14px 32px rgba(74, 63, 54, 0.14);
+  --shadow-md: 0 8px 24px rgba(74, 63, 54, 0.08);
+  --shadow-lg: 0 16px 40px rgba(74, 63, 54, 0.12);
   --shadow-brand: 0 8px 20px rgba(232, 85, 45, 0.28);
   --drop-lg: drop-shadow(0 22px 38px rgba(74, 63, 54, 0.24));
   --drop-md: drop-shadow(0 18px 30px rgba(74, 63, 54, 0.20));
@@ -136,25 +166,43 @@
   --maxw: 1120px;
 }
 
-/* Light is the default theme. Dark applies only when the user opts in via the
-   theme toggle (data-theme='dark'): neutral near-black surfaces, warm brand. */
+:root { color-scheme: light; }
+
+/* Dark follows the visitor's OS setting unless they've picked a theme with the
+   toggle - the inline head script resolves which and sets data-theme before
+   first paint. Surfaces are the app's warm-neutral charcoal: a whisper of
+   warmth so it doesn't clash with paprika, without reading as brown. */
 :root[data-theme='dark'] {
-  --text: #F7F7F8;
-  --text-body: #E3E3E5;
-  --muted: #A5A5AA;
-  /* Dark has room for a genuine third tier; #7C7C82 sat at 4.1-4.2:1. */
-  --faint: #949499;
-  --bg: #0F0F10;
-  /* One step wider than #161618, which sat at 1.06:1 against the page and made
-     the alternating section rhythm disappear entirely in dark. */
-  --surface-sunken: #1A1A1D;
-  --card: #1C1C1F;
-  --border: #2A2A2E;
-  --border-strong: #3A3A40;
-  --border-interactive: #6A6A72;
+  color-scheme: dark;
+  --text: #FCF6EF;
+  --text-body: #EADFD3;
+  --muted: #B3A597;
+  /* The app's #8A7D71 is 3.9:1 on the card; one step lighter clears 4.5:1 on
+     every dark surface while staying a tier below --muted. */
+  --faint: #9A8D80;
+  --bg: #161514;
+  --surface-sunken: #1F1D1B;
+  --card: #252320;
+  --border: #332F2B;
+  --border-strong: #454039;
+  --border-interactive: #776D62;
   --brand: var(--paprika-400);
   --brand-hover: var(--paprika-300);
-  --brand-subtle: #2E1D16;
+  --brand-subtle: #3A241B;
+
+  --separator: rgba(252, 246, 239, 0.12);
+  --fill: rgba(234, 223, 211, 0.10);
+  --fill-strong: rgba(234, 223, 211, 0.16);
+  --glass: rgba(37, 35, 32, 0.70);
+  --glass-fallback: rgba(31, 29, 27, 0.96);
+  --glass-border: rgba(255, 255, 255, 0.10);
+  /* Shadows vanish on charcoal, so dark cards need a visible lit edge. */
+  --card-edge: rgba(255, 255, 255, 0.06);
+
+  --macro-cal: var(--paprika-400);
+  --macro-carb: var(--honey-500);
+  --macro-pro: var(--basil-300);
+  --macro-fat: var(--honey-300);
   /* Against near-black the 400 already clears 4.5:1, so link and eyebrow text
      keeps the brighter step here rather than the 700. */
   --brand-text: var(--paprika-400);
@@ -182,12 +230,14 @@
   --success-fg: var(--basil-300);
   --danger-fg: var(--paprika-300);
 
-  /* Elevation reads as neutral depth against near-black, not warm haze. */
-  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.40);
-  --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.48);
-  --shadow-lg: 0 14px 32px rgba(0, 0, 0, 0.56);
+  /* Elevation reads as neutral depth against charcoal, not warm haze. */
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.36);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.40);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.48);
   --drop-lg: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.60));
   --drop-md: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.52));
+  /* A paprika glow reads as haze on charcoal, so it drops to a faint hint. */
+  --shadow-brand: 0 6px 16px rgba(232, 85, 45, 0.10);
 }
 
 /* ========================================================================= */
@@ -199,10 +249,10 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
-  /* Header is 68px and sticky. Without this, both anchor landings and any
+  /* Header is a 60px floating bar 12px down, and sticky. Without this, both anchor landings and any
      scroll-into-view from keyboard focus put their target underneath it.
      WCAG 2.4.11. */
-  scroll-padding-top: 84px;
+  scroll-padding-top: 96px;
 }
 
 body {
@@ -234,6 +284,8 @@ h1, h2, h3, h4 {
   margin: 0;
   font-weight: 800;
 }
+/* Display and h1 are Bricolage ExtraBold; everything below is Bold (app Type). */
+h3, h4 { font-weight: 700; letter-spacing: -0.015em; }
 
 .wrap {
   width: 100%;
@@ -262,7 +314,7 @@ h1, h2, h3, h4 {
 
 /* Sections are separated by alternating shades of the warm background
    (no gradients). `.tint` sits one step deeper than the base page. */
-.tint { background: var(--surface-sunken); border-block: 1px solid var(--border-strong); }
+.tint { background: var(--surface-sunken); border-block: 1px solid var(--separator); }
 
 /* ---- Inline icons (flaticon-style line icons via an SVG sprite) ---- */
 .i {
@@ -286,47 +338,75 @@ h1, h2, h3, h4 {
   font-family: var(--font-sans);
   font-weight: 600;
   font-size: 16px;
-  padding: 9px 22px;
-  border-radius: 15px;
+  /* Heights match the app's ButtonHeights (36 / 48 / 56) and grow rather than
+     clip if text is enlarged. */
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: var(--r-button);
   border: 1.5px solid transparent;
   cursor: pointer;
-  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.18s cubic-bezier(.2,.8,.2,1), background 0.15s ease, box-shadow 0.15s ease;
   white-space: nowrap;
 }
-.btn:active { transform: translateY(1px) scale(0.99); }
+/* PressableScale: a quick, springy shrink rather than a nudge down. */
+.btn:active { transform: scale(0.97); }
 .btn-primary {
   background: var(--brand-solid);
   color: var(--on-brand);
   box-shadow: var(--shadow-brand);
 }
 .btn-primary:hover { background: var(--brand-solid-hover); color: var(--on-brand); }
-.btn-ghost {
-  background: var(--card);
+.btn-secondary {
+  /* iOS's "gray" button: a translucent fill, no outline. The label identifies
+     the control, so it doesn't need a 3:1 boundary. */
+  background: var(--fill);
   color: var(--text);
-  border-color: var(--border-interactive);
-  box-shadow: var(--shadow-sm);
 }
-.btn-ghost:hover { color: var(--text); border-color: var(--brand); }
-.btn-lg { padding: 11px 26px; font-size: 17px; }
-.btn-sm { padding: 7px 14px; font-size: 14px; border-radius: var(--r-sm); }
+.btn-secondary:hover { background: var(--fill-strong); color: var(--text); }
+.btn-lg { min-height: 56px; padding: 0 26px; font-size: 17px; }
+.btn-sm { min-height: 36px; padding: 0 16px; font-size: 14px; }
 
 /* ========================================================================= */
 /* Header                                                                    */
 /* ========================================================================= */
 
+/* Glass material - the app's floating chrome (tab bar, snackbar, FAB).
+   A tint over a blur, a bright inner edge, a hairline outer edge and a wide
+   ambient shadow. Without backdrop-filter it falls back to a near-opaque tint
+   so text stays legible over whatever scrolls beneath. */
+.glass {
+  background: var(--glass);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  backdrop-filter: saturate(180%) blur(24px);
+  box-shadow:
+    inset 0 0 0 1px var(--glass-border),
+    0 0 0 0.5px var(--separator),
+    var(--shadow-md);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass { background: var(--glass-fallback); }
+}
+
+/* The header floats as a glass bar over the page, like the app's tab bar -
+   content scrolls visibly behind it rather than under an opaque strip. */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: color-mix(in srgb, var(--bg) 85%, transparent);
-  backdrop-filter: saturate(160%) blur(14px);
-  border-bottom: 1px solid var(--border);
+  padding-top: var(--s-md);
+  /* Only the bar itself should catch clicks, not the gap around it. */
+  pointer-events: none;
 }
+.site-header > * { pointer-events: auto; }
 .nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 68px;
+  height: 60px;
+  width: calc(100% - 2 * var(--s-lg));
+  max-width: calc(var(--maxw) - 2 * var(--s-2xl));
+  padding-inline: var(--s-lg) var(--s-sm);
+  border-radius: var(--r-lg);
 }
 .brand {
   display: inline-flex;
@@ -347,21 +427,25 @@ h1, h2, h3, h4 {
   font-size: 15px;
 }
 .nav-links a.link:hover { color: var(--brand-text); }
+/* Circular icon buttons on a fill (app: HeaderButton), 44px HIG target. */
 .theme-toggle,
 .nav-toggle {
-  background: var(--card);
-  border: 1.5px solid var(--border-interactive);
+  background: var(--fill);
+  border: 0;
   border-radius: var(--r-pill);
-  width: 40px; height: 40px;
+  width: 44px; height: 44px;
   cursor: pointer;
   display: grid; place-items: center;
   color: var(--text);
-  transition: border-color 0.15s ease;
+  transition: background 0.15s ease, transform 0.18s cubic-bezier(.2,.8,.2,1);
 }
 .theme-toggle .i,
 .nav-toggle .i { width: 19px; height: 19px; }
 .theme-toggle:hover,
-.nav-toggle:hover { border-color: var(--brand); }
+.nav-toggle:hover { background: var(--fill-strong); }
+.theme-toggle:active,
+.nav-toggle:active { transform: scale(0.94); }
+.nav-links > .btn { min-height: 44px; }
 
 /* The hamburger only exists below the breakpoint where the inline links go. */
 .nav-toggle { display: none; }
@@ -371,24 +455,29 @@ h1, h2, h3, h4 {
   .nav-links .link { display: none; }
   /* "Get the app" moves into the panel so the bar still fits at 320px. */
   .nav-links > .btn { display: none; }
-  .nav-links { gap: var(--s-md); }
+  .nav-links { gap: var(--s-sm); }
   .nav-toggle { display: grid; }
   .nav-panel { display: block; }
   .nav-panel[hidden] { display: none; }
 }
 
+/* The menu drops down as a second glass sheet under the bar. */
 .nav-panel {
-  border-top: 1px solid var(--border-strong);
-  background: var(--bg);
-  padding-block: var(--s-sm) var(--s-xl);
+  width: calc(100% - 2 * var(--s-lg));
+  margin: var(--s-sm) auto 0;
+  border-radius: var(--r-lg);
+  padding-block: var(--s-xs) var(--s-lg);
+  animation: sheet-in 0.22s cubic-bezier(.2,.8,.2,1);
 }
-.nav-panel .wrap { display: grid; }
+@keyframes sheet-in { from { opacity: 0; transform: translateY(-8px) scale(0.98); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .nav-panel { animation: none; } }
+.nav-panel .wrap { display: grid; padding-inline: var(--s-lg); }
 .nav-panel a.link {
   color: var(--text-body);
   font-weight: 500;
   font-size: 16px;
   padding-block: var(--s-md);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--separator);
 }
 .nav-panel a.link:last-of-type { border-bottom: none; }
 .nav-panel a.link:hover { color: var(--brand-text); }
@@ -421,7 +510,17 @@ h1, h2, h3, h4 {
   max-width: 30ch;
   margin: 0 0 var(--s-2xl);
 }
-.hero-cta { display: flex; flex-wrap: wrap; gap: var(--s-md); }
+/* Two equal store buttons, with the secondary action spanning both beneath.
+   1fr tracks in a fit-content grid both size to the wider of the two. */
+.hero-cta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-md);
+  width: fit-content;
+  max-width: 100%;
+}
+.hero-cta > .store-btn { width: 100%; }
+.hero-cta .btn { grid-column: 1 / -1; width: 100%; }
 .hero-note {
   margin-top: var(--s-lg);
   font-size: 14px;
@@ -445,48 +544,62 @@ h1, h2, h3, h4 {
   margin-top: var(--s-xl);
 }
 
-/* ---- Store badge (Google Play) ----
-   An inline SVG driven by the design tokens: paprika fill + white mark by
-   default, and on the brand-coloured CTA band the badge inverts to white with
-   paprika mark + text (the same pattern as .cta-inner .btn-primary). */
-.store-badge {
+/* ---- Store buttons (Google Play + "Coming soon to iPhone") ----
+   One shared shape, type and colour so the pair reads as a matched set. The
+   iPhone one is a span, not a link, and not Apple's badge (that's only for
+   apps that are live). On the brand-coloured CTA band both invert to white
+   with a paprika mark + text (the same pattern as .cta-inner .btn-primary). */
+.store-btn {
   display: inline-flex;
   align-items: center;
-  transition: transform 0.15s ease, opacity 0.15s ease;
-}
-.store-badge:hover { transform: translateY(-2px); opacity: 0.88; }
-.store-badge .play-badge {
+  justify-content: center;
+  gap: 10px;
   height: 52px;
-  width: auto;
+  padding: 0 20px 0 16px;
+  border-radius: 16px;
+  background: var(--brand-solid);
+  color: var(--on-brand);
+  line-height: 1.1;
+  text-align: left;
+  white-space: nowrap;
+}
+a.store-btn { transition: transform 0.15s ease, opacity 0.15s ease; }
+a.store-btn:hover { transform: translateY(-2px); opacity: 0.88; color: var(--on-brand); }
+.store-btn .i { width: 28px; height: 28px; }
+.store-btn .store-sub {
   display: block;
-}
-.store-badge .badge-sub {
-  font-family: var(--font-sans);
+  font-size: 10.5px;
   font-weight: 600;
-  font-size: 28px;
-  letter-spacing: 3px;
-  fill: var(--badge-fg, var(--on-brand));
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--on-brand-muted);
 }
-.store-badge .badge-title {
+.store-btn .store-title {
+  display: block;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 54px;
-  fill: var(--badge-fg, var(--on-brand));
+  font-size: 18px;
 }
-.cta-band .store-badge {
-  --badge-bg: var(--on-brand);
-  --badge-fg: var(--brand-solid);
+.cta-band .store-btn { background: var(--on-brand); color: var(--brand-solid); }
+.cta-band a.store-btn:hover { color: var(--brand-solid); }
+.cta-band .store-btn .store-sub { color: var(--brand-solid); opacity: 0.75; }
+.store-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-md);
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
 }
+.store-row > .store-btn { width: 100%; }
 
 @media (max-width: 820px) {
   .hero-grid { grid-template-columns: 1fr; text-align: center; }
   .hero-sub { margin-inline: auto; }
-  /* Equal-width halves so the badge and button read as one matched pair.
-     minmax(0,1fr) lets both tracks shrink below their content width. */
-  .hero-cta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-md); }
-  .hero-cta > .store-badge { width: 100%; }
-  .hero-cta > .store-badge .play-badge { width: 100%; height: auto; }
-  .hero-cta .btn { width: 100%; font-size: 15px; white-space: normal; }
+  /* Full-width on narrow screens; minmax(0,1fr) lets both tracks shrink below
+     their content width. */
+  .hero-cta { width: 100%; }
+  .hero-cta .btn { white-space: normal; }
   .hero-note { justify-content: center; }
   /* The mockup no longer takes grid-row 1: leading with it pushed the headline
      to 518px and the second CTA off the first screen entirely. */
@@ -500,12 +613,17 @@ h1, h2, h3, h4 {
   gap: var(--s-lg);
   padding: var(--s-2xl);
   background: var(--card);
-  border: 1px solid var(--border);
+  border: 1px solid var(--card-edge);
   border-radius: var(--r-xl);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
   margin-top: clamp(32px, 5vw, 56px);
 }
 .stat { text-align: center; }
+/* Hairline dividers between the figures, like an iOS grouped row. */
+.stat + .stat { border-left: 1px solid var(--separator); }
+@media (max-width: 620px) {
+  .stat:nth-child(odd) { border-left: 0; }
+}
 .stat .num {
   font-family: var(--font-numeric);
   font-weight: 700;
@@ -525,10 +643,10 @@ h1, h2, h3, h4 {
 .step {
   position: relative;
   background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--r-lg);
+  border: 1px solid var(--card-edge);
+  border-radius: var(--r-xl);
   padding: var(--s-2xl);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
 }
 .step .n {
   font-family: var(--font-numeric);
@@ -536,10 +654,11 @@ h1, h2, h3, h4 {
   font-size: 15px;
   color: var(--on-brand);
   background: var(--brand-solid);
-  width: 34px; height: 34px;
-  border-radius: var(--r-pill);
+  width: 36px; height: 36px;
+  border-radius: var(--r-sm);
   display: grid; place-items: center;
   margin-bottom: var(--s-lg);
+  box-shadow: var(--shadow-brand);
 }
 .step h3 { font-size: 21px; margin-bottom: var(--s-sm); }
 .step p { margin: 0; color: var(--muted); font-size: 16px; }
@@ -552,18 +671,19 @@ h1, h2, h3, h4 {
 /* Feature explorer - grouped tabs (see the note in index.html) */
 .feature-tabs {
   background: var(--card);
-  border: 1px solid var(--border);
+  border: 1px solid var(--card-edge);
   border-radius: var(--r-xl);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
   padding: var(--s-lg);
 }
 .ftab-bar { display: none; }
 .is-tabbed .ftab-bar {
   display: flex;
-  gap: var(--s-sm);
-  padding: var(--s-xs);
-  background: var(--surface-sunken);
-  border-radius: var(--r-lg);
+  /* A segmented control (app: SegmentedTabs) - a fill track, 3px inset. */
+  gap: 2px;
+  padding: 3px;
+  background: var(--fill);
+  border-radius: var(--r-button);
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -571,9 +691,10 @@ h1, h2, h3, h4 {
 .ftab {
   flex: 1 0 auto;
   display: inline-flex; align-items: center; justify-content: center; gap: var(--s-sm);
-  padding: 10px 16px;
+  min-height: 44px;
+  padding: 0 16px;
   border: 0;
-  border-radius: var(--r-md);
+  border-radius: calc(var(--r-button) - 3px);
   background: transparent;
   color: var(--muted);
   font: inherit; font-weight: 600; font-size: 15px;
@@ -595,13 +716,13 @@ h1, h2, h3, h4 {
   min-width: 20px;
   padding: 1px 6px;
   border-radius: var(--r-pill);
-  background: var(--border);
+  background: var(--fill-strong);
   color: var(--muted);
 }
 .ftab[aria-selected='true'] .count { background: var(--accent-paprika-tint); color: var(--accent-paprika-fg); }
 
 .fpanel { padding: var(--s-2xl) var(--s-lg) var(--s-lg); }
-.fpanel + .fpanel { border-top: 1px dashed var(--border); }
+.fpanel + .fpanel { border-top: 1px solid var(--separator); }
 .is-tabbed .fpanel + .fpanel { border-top: 0; }
 /* Every panel shares one grid cell, so the box is always as tall as the
    longest group and switching tabs never shifts the page below. */
@@ -633,7 +754,7 @@ h1, h2, h3, h4 {
   border-radius: var(--r-md);
   transition: background 0.18s ease;
 }
-.frow:hover { background: var(--surface-sunken); }
+.frow:hover { background: var(--fill); }
 .frow .ico {
   flex: none;
   width: 44px; height: 44px;
@@ -644,7 +765,14 @@ h1, h2, h3, h4 {
 .frow h4 { font-size: 17px; margin: 2px 0 var(--s-xs); }
 .frow p { margin: 0; color: var(--muted); font-size: 15px; }
 
-@media (max-width: 760px) { .frows { grid-template-columns: 1fr; } }
+@media (max-width: 760px) {
+  .frows { grid-template-columns: 1fr; }
+  /* Single-column, the longest group is ~500px taller than the shortest, so
+     sharing one cell would leave a screenful of blank card under most tabs.
+     Here the page below may move; that beats the gap. */
+  .is-tabbed .fpanel-stack { display: block; }
+  .is-tabbed .fpanel[hidden] { display: none; }
+}
 @media (max-width: 580px) {
   .feature-tabs { padding: var(--s-sm); }
   .fpanel { padding: var(--s-xl) var(--s-md) var(--s-md); }
@@ -668,22 +796,26 @@ h1, h2, h3, h4 {
 
 /* Marks a feature as part of Morsel Plus */
 .plus-tag {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
   margin-left: 4px;
   padding: 1px 8px;
-  border-radius: 999px;
+  border-radius: var(--r-pill);
   background: var(--accent-paprika-tint);
   color: var(--accent-paprika-fg);
-  font-size: 12px;
+  font-family: var(--font-sans);
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: .02em;
-  vertical-align: 1px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  vertical-align: 2px;
 }
 
 /* Feature - spotlight band */
 .spotlight {
   background: var(--surface-sunken);
-  border-block: 1px solid var(--border-strong);
+  border-block: 1px solid var(--separator);
 }
 .spotlight-grid {
   display: grid;
@@ -694,27 +826,28 @@ h1, h2, h3, h4 {
 .spotlight-grid.flip .media { order: -1; }
 .macro-row { display: flex; flex-wrap: wrap; gap: var(--s-md); margin-top: var(--s-xl); }
 .macro {
-  display: inline-flex; align-items: baseline; gap: 6px;
+  display: inline-flex; align-items: center; gap: 8px;
   background: var(--card);
-  border: 1px solid var(--border);
+  border: 1px solid var(--card-edge);
   border-radius: var(--r-pill);
-  padding: 8px 16px;
+  padding: 8px 16px 8px 12px;
   box-shadow: var(--shadow-sm);
 }
+/* The hue lives in the dot (a non-text mark, 3:1) so the numbers can stay in
+   full-contrast ink - the amber fat and honey carbs never clear 4.5:1 as text. */
+.macro .dot { width: 10px; height: 10px; border-radius: var(--r-pill); flex: none; }
 .macro .v { font-family: var(--font-numeric); font-weight: 700; color: var(--text); }
 .macro .k { font-size: 13px; color: var(--muted); }
-/* These are numbers, so they carry the 4.5:1 text requirement in both themes -
-   the raw palette steps failed at 2.76 (light carbs) and 3.48/3.73 (dark). */
-.macro.cal .v  { color: var(--accent-paprika-fg); }
-.macro.carb .v { color: var(--accent-honey-fg); }
-.macro.pro .v  { color: var(--accent-basil-fg); }
-.macro.fat .v  { color: var(--accent-blueberry-fg); }
+.macro.cal .dot  { background: var(--macro-cal); }
+.macro.carb .dot { background: var(--macro-carb); }
+.macro.pro .dot  { background: var(--macro-pro); }
+.macro.fat .dot  { background: var(--macro-fat); }
 
 .feature-list { list-style: none; padding: 0; margin: var(--s-lg) 0 0; }
 .feature-list li {
   display: flex; gap: var(--s-md); align-items: flex-start;
   padding: var(--s-md) 0;
-  border-bottom: 1px dashed var(--border);
+  border-bottom: 1px solid var(--separator);
   color: var(--text-body);
 }
 .feature-list li:last-child { border-bottom: none; }
@@ -751,8 +884,8 @@ h1, h2, h3, h4 {
 .contact-links { list-style: none; padding: 0; margin: var(--s-xl) 0 0; display: grid; gap: var(--s-md); }
 .contact-links li { display: flex; align-items: center; gap: var(--s-md); }
 .contact-links .ci {
-  width: 42px; height: 42px; border-radius: var(--r-md);
-  background: var(--brand-subtle); color: var(--brand);
+  width: 44px; height: 44px; border-radius: var(--r-md);
+  background: var(--accent-paprika-tint); color: var(--accent-paprika-fg);
   display: grid; place-items: center; flex: none;
 }
 .contact-links .ci .i { width: 20px; height: 20px; }
@@ -764,7 +897,7 @@ h1, h2, h3, h4 {
 
 .form-card {
   background: var(--card);
-  border: 1px solid var(--border);
+  border: 1px solid var(--card-edge);
   border-radius: var(--r-xl);
   padding: clamp(22px, 4vw, 36px);
   box-shadow: var(--shadow-md);
@@ -784,11 +917,12 @@ h1, h2, h3, h4 {
   font-family: var(--font-sans);
   font-size: 16px;
   color: var(--text);
-  background: var(--surface-sunken);
-  /* The fill is only ~1.05:1 against the card, so the border is the only thing
-     identifying the field - it has to clear 3:1 on its own. WCAG 1.4.11. */
-  border: 1.5px solid var(--border-interactive);
-  border-radius: var(--r-md);
+  background: var(--fill);
+  /* The app draws fields as a fill alone, but on the web the fill is only
+     ~1.1:1 against the card, so a 1px boundary still has to clear 3:1 on its
+     own to identify the field. WCAG 1.4.11. */
+  border: 1px solid var(--border-interactive);
+  border-radius: var(--r-button);
   padding: 13px 15px;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
@@ -799,7 +933,8 @@ h1, h2, h3, h4 {
 .field textarea:focus {
   outline: none;
   border-color: var(--brand);
-  box-shadow: 0 0 0 3px var(--brand-subtle);
+  background: var(--card);
+  box-shadow: 0 0 0 4px var(--accent-paprika-tint);
 }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-lg); }
 .form-card .btn { width: 100%; margin-top: var(--s-sm); }
@@ -868,7 +1003,7 @@ h1, h2, h3, h4 {
 .cta-inner .btn-primary:hover { background: var(--sand-100); color: var(--brand-solid-hover); }
 
 .site-footer {
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--separator);
   background: var(--surface-sunken);
   padding-block: var(--s-3xl);
 }
@@ -885,7 +1020,7 @@ h1, h2, h3, h4 {
 .footer-links { display: flex; flex-wrap: wrap; gap: var(--s-xl); }
 .footer-links a { color: var(--text-body); font-weight: 500; font-size: 15px; }
 .footer-links a:hover { color: var(--brand-text); }
-.footer-legal { width: 100%; color: var(--faint); font-size: 13px; padding-top: var(--s-lg); border-top: 1px solid var(--border); margin-top: var(--s-md); }
+.footer-legal { width: 100%; color: var(--faint); font-size: 13px; padding-top: var(--s-lg); border-top: 1px solid var(--separator); margin-top: var(--s-md); }
 
 /* ========================================================================= */
 /* Privacy page                                                              */
@@ -902,7 +1037,7 @@ h1, h2, h3, h4 {
   font-size: 26px;
   margin-top: var(--s-3xl);
   padding-top: var(--s-lg);
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--separator);
 }
 .doc h3 { font-size: 19px; margin-top: var(--s-xl); }
 .doc p, .doc li { color: var(--text-body); font-size: 16.5px; }
@@ -928,4 +1063,28 @@ h1, h2, h3, h4 {
 @media (prefers-reduced-motion: reduce) {
   .js .reveal { opacity: 1; transform: none; transition: none; }
   html { scroll-behavior: auto; }
+}
+
+/* ---- Continuous corners ----
+   The app spreads `borderCurve: 'continuous'` on every radius except pills -
+   the single biggest tell between native iOS and a web view. Browsers with
+   corner-shape get the same squircle. A squircle at radius r looks tighter
+   than a circular arc at r, so the scale steps up ~1.5x to land on the same
+   visual softness; everywhere else keeps plain circular arcs. */
+@supports (corner-shape: squircle) {
+  :root {
+    --r-xs: 9px;
+    --r-sm: 15px;
+    --r-md: 21px;
+    --r-lg: 30px;
+    --r-xl: 42px;
+    --r-button: 21px;
+    --r-chip: 15px;
+  }
+  .btn, .nav, .nav-panel, .stats, .step, .step .n, .feature-tabs, .ftab-bar, .ftab,
+  .frow, .frow .ico, .media img, .form-card, .field input, .field select,
+  .field textarea, .form-status, .contact-links .ci, .cta-inner, .callout,
+  .cta-fallback, .store-btn {
+    corner-shape: squircle;
+  }
 }

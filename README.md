@@ -5,7 +5,11 @@ them (with macros) on your phone for offline cooking.
 
 Built as a static site so it can be hosted for free on **GitHub Pages**. It mirrors
 the app's **Morsel Design System** - paprika brand, basil/honey accents, warm "sand"
-neutrals and warm "ink" text, with Bricolage Grotesque / Inter / Space Grotesk type.
+neutrals and warm "ink" text, with Bricolage Grotesque / Inter / Space Grotesk type -
+plus the app's iOS layer: glass chrome (the floating header and menu), continuous
+"squircle" corners via `corner-shape` where supported, translucent fills instead of
+outlines on secondary controls, hairline separators, and the warm-charcoal dark
+theme (follows the OS until the visitor picks one with the toggle).
 
 ## Pages
 
