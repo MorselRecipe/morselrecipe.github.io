@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Terms of Use - Morsel</title>
   <meta name="description" content="The terms for using Morsel: your recipes, the community rules, Morsel Plus subscriptions, and what to keep in mind about AI-generated nutrition and cooking help." />
-  <meta name="theme-color" content="#E8562E" />
+  <meta name="theme-color" content="#FFFBF6" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#161514" media="(prefers-color-scheme: dark)" />
   <link rel="icon" href="assets/img/favicon.png" />
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -17,6 +18,16 @@
        hide content the script is actually able to bring back. The timeout is the
        backstop for the case this runs but main.js never does. -->
   <script>
+    // Theme before first paint: an explicit toggle choice wins, otherwise follow
+    // the OS. Without script the page stays light.
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('morsel-theme'); } catch (e) {}
+      if (t !== 'dark' && t !== 'light') {
+        t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+    })();
     document.documentElement.classList.add('js');
     setTimeout(function () {
       if (!window.__morselReady) document.documentElement.classList.remove('js');
@@ -36,7 +47,7 @@
   </svg>
 
   <header class="site-header">
-    <div class="wrap nav">
+    <div class="wrap nav glass">
       <a class="brand" href="index.html#top">
         <img src="assets/img/logo-mascot.png" alt="" />
         Morsel
@@ -53,7 +64,7 @@
         <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-menu"></use></svg></button>
       </nav>
     </div>
-    <div class="nav-panel" id="mobile-nav" hidden>
+    <div class="nav-panel glass" id="mobile-nav" hidden>
       <nav class="wrap" aria-label="Menu">
         <a class="link" href="index.html#how">How it works</a>
         <a class="link" href="index.html#features">Features</a>
@@ -156,7 +167,7 @@
       <h2>15. Contact</h2>
       <p>Questions about these terms? Reach us at <a href="mailto:morselrecipeapp@gmail.com">morselrecipeapp@gmail.com</a> or through the <a href="index.html#contact">contact form</a>.</p>
 
-      <p style="margin-top:32px;"><a class="btn btn-ghost" href="index.html#top">&larr; Back to home</a></p>
+      <p style="margin-top:32px;"><a class="btn btn-secondary" href="index.html#top">&larr; Back to home</a></p>
     </article>
   </main>
 

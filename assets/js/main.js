@@ -8,13 +8,26 @@
   /* ---- Theme toggle (persisted, respects system default) ---- */
   var root = document.documentElement;
   var toggle = document.querySelector('.theme-toggle');
+  // The inline head script has already resolved the theme (stored choice, else
+  // the OS setting) before first paint; this only keeps it current.
   var stored = null;
   try { stored = localStorage.getItem('morsel-theme'); } catch (e) {}
-  if (stored === 'dark' || stored === 'light') root.setAttribute('data-theme', stored);
+  var hasChoice = stored === 'dark' || stored === 'light';
 
   function currentTheme() {
-    // Light is the default; dark only when the user has explicitly chosen it.
     return root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  }
+
+  // Until the visitor picks a theme, follow the OS live, e.g. at sunset.
+  var mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+  if (mq) {
+    var onSystemChange = function (ev) {
+      if (hasChoice) return;
+      root.setAttribute('data-theme', ev.matches ? 'dark' : 'light');
+      paintToggle();
+    };
+    if (mq.addEventListener) mq.addEventListener('change', onSystemChange);
+    else if (mq.addListener) mq.addListener(onSystemChange);
   }
   function paintToggle() {
     if (!toggle) return;
@@ -29,6 +42,7 @@
     toggle.addEventListener('click', function () {
       var next = currentTheme() === 'dark' ? 'light' : 'dark';
       root.setAttribute('data-theme', next);
+      hasChoice = true;
       try { localStorage.setItem('morsel-theme', next); } catch (e) {}
       paintToggle();
     });
