@@ -80,12 +80,12 @@
   <main>
     <article class="wrap doc">
       <h1>Privacy Policy</h1>
-      <p class="updated">Last updated: 17 October 2026</p>
+      <p class="updated">Last updated: 23 October 2026</p>
 
       <p class="lead">Morsel is built to keep your recipes on your phone. We collect as little as possible, we don't sell your data, and we never show you ads. This policy explains exactly what happens to the information you give us - and which features share anything at all.</p>
 
       <div class="callout">
-        <p><strong>The short version:</strong> Your recipes, folders, meal plans, trackers and settings live on your device. When you save a recipe from a link, or use an AI feature, only what's needed for that task is sent to our servers and the providers that power them. Nothing is public unless you choose to share it to the community. An account is optional and exists only so your Morsel Plus subscription can follow you.</p>
+        <p><strong>The short version:</strong> Your recipes, folders, meal plans, trackers and settings live on your device. When you save a recipe from a link, or use an AI feature, only what's needed for that task is sent to our servers and the providers that power them. Nothing is public unless you choose to share it to the community. An account is optional: it lets your Morsel Plus subscription follow you and, if you turn on sync, keeps your recipes on every phone you sign in on. Your food and water logs, goals and body details never leave your device.</p>
       </div>
 
       <h2>1. Who we are</h2>
@@ -94,7 +94,7 @@
       <h2>2. What we collect</h2>
 
       <h3>Stored on your device</h3>
-      <p>The following stay on your phone and are not sent to us, except where a feature below says otherwise:</p>
+      <p>The following stay on your phone and are not sent to us, except where a feature below says otherwise (for recipes and folders, that's only if you turn on sync):</p>
       <ul>
         <li><strong>Your recipes and folders</strong> - titles, ingredients, steps, servings, macros, notes, source links and photos, kept in a local database and image cache.</li>
         <li><strong>Your profile &amp; preferences</strong> - the display name you choose, plus your theme (System / Light / Dark), unit (Metric / Imperial) and language settings.</li>
@@ -131,13 +131,13 @@
       <ul>
         <li><strong>Account.</strong> You can sign in with Google or Sign in with Apple. We use <strong>Supabase</strong> to manage sign-in. We receive your email address (or Apple's private relay address), the name the provider shares, and a unique user ID.</li>
         <li><strong>Subscriptions.</strong> If you subscribe to Morsel Plus, payments are handled by <strong>RevenueCat</strong> and the app store (Google Play or the App Store). We receive your subscription status - plan, store, product and expiry date - not your card details. If you redeem a Plus code, the code is linked to your install ID.</li>
-        <li><strong>Cloud sync is not available yet.</strong> Today your recipes and trackers are not uploaded to your account. If we add sync, we'll update this policy first and it will be opt-in.</li>
+        <li><strong>Sync across devices (Morsel Plus, opt-in).</strong> Sync is off until you turn it on in Backup &amp; Restore. When it's on, your recipes (titles, ingredients, steps, servings, macros, notes, source links and category), your folders and which recipes are in them, and your recipe photos are stored with your account in Supabase, so they appear on every phone you sign in on. Photos are kept in private storage that only your account can read. Your food and water logs, goals, body details, meal plans, grocery lists, reminders and settings are <em>not</em> synced and stay on your device. Deleting a recipe on one phone deletes it from the cloud copy and your other phones. Turning sync off stops further syncing; deleting your account deletes the synced copy.</li>
       </ul>
 
       <h3>Device permissions</h3>
       <p>Morsel asks only when a feature needs it, and each is optional:</p>
       <ul>
-        <li><strong>Photos / camera</strong> - to add a picture to a recipe. Photos stay on your device unless you share that recipe to Discover.</li>
+        <li><strong>Photos / camera</strong> - to add a picture to a recipe. Photos stay on your device unless you share that recipe to Discover or turn on sync (then a smaller copy is stored privately with your account).</li>
         <li><strong>Notifications</strong> - for water, meal, grocery and shopping-trip reminders. These are scheduled locally on your phone; Morsel does not use remote push, so no notification data is sent to us.</li>
         <li><strong>Reminders (iOS)</strong> - to add your grocery list as reminders when you tap export. Morsel writes the items you ask for and does not read your existing reminders.</li>
         <li><strong>Calendar</strong> - when you add a shopping trip, Morsel opens your phone's own calendar screen so you can confirm the event.</li>
@@ -160,7 +160,7 @@
         <li><strong>DeepSeek</strong> - analyses recipe text (captions, comments, transcripts) when it is available, to extract recipes at lower cost.</li>
         <li><strong>Pexels</strong> - finds a relevant stock photo when a recipe has no image of its own.</li>
         <li><strong>USDA FoodData Central</strong> and <strong>Open Food Facts</strong> - public nutrition databases used, only if you opt in, to cross-check macros.</li>
-        <li><strong>Supabase</strong> - sign-in, subscription records, community content and the public image storage used for shared recipes.</li>
+        <li><strong>Supabase</strong> - sign-in, subscription records, community content, the public image storage used for shared recipes, and - if you turn on sync - the private copy of your recipes, folders and recipe photos.</li>
         <li><strong>RevenueCat</strong> - processes and manages Morsel Plus subscriptions together with your app store.</li>
         <li><strong>Apple and Google</strong> - provide Sign in with Apple / Google sign-in, the app stores, and billing.</li>
         <li><strong>Upstash and Render</strong> - infrastructure that runs our service: short-lived usage counters and caches, and server hosting, which may log technical details such as your IP address.</li>
@@ -179,20 +179,21 @@
       <p>We do not use your recipes or links to build advertising profiles, and we do not use your personal recipe library to train models.</p>
 
       <h2>5. Data retention</h2>
-      <p>Your recipes, folders, profile, trackers and preferences remain on your device until you delete them or uninstall the app. Deleting a recipe removes it, and its cached image, from your device.</p>
+      <p>Your recipes, folders, profile, trackers and preferences remain on your device until you delete them or uninstall the app. Deleting a recipe removes it, and its cached image, from your device - and, if sync is on, from the cloud copy and your other phones.</p>
       <ul>
         <li><strong>Extraction and AI caches</strong> hold the results of processed links and requests for a limited time, so repeated requests are quicker. <strong>Usage counters</strong> reset monthly.</li>
         <li><strong>Shared index entries</strong> from public links stay in Discover's index and are not tied to you.</li>
         <li><strong>Community content</strong> you publish stays visible until you delete it or we remove it under the community rules.</li>
-        <li><strong>Account data</strong> is kept until you delete your account. Deleting it removes your sign-in and subscription record from our database. Billing records held by RevenueCat, Apple and Google are retained under their own policies and legal obligations.</li>
+        <li><strong>Synced recipes</strong> are kept with your account until you delete them or delete your account. A deleted recipe leaves only a small marker (its ID, when it was deleted, and - for a duplicate merged into another copy - which one) so your other phones know to remove it too; its content and photo are removed.</li>
+        <li><strong>Account data</strong> is kept until you delete your account. Deleting it removes your sign-in, your subscription record, and any synced recipes, folders and photos from our database and storage. Billing records held by RevenueCat, Apple and Google are retained under their own policies and legal obligations.</li>
       </ul>
 
       <h2>6. Your choices &amp; rights</h2>
       <ul>
         <li><strong>Delete anything, anytime.</strong> Remove individual recipes or folders in the app, or uninstall to remove everything stored locally.</li>
-        <li><strong>Delete your account in the app.</strong> If you created an account, open Profile &rarr; Account &rarr; Delete account. This permanently deletes your account on our servers; your recipes stay on your phone. It does not cancel a store subscription - cancel that first in Google Play or the App Store.</li>
+        <li><strong>Delete your account in the app.</strong> If you created an account, open Profile &rarr; Account &rarr; Delete account. This permanently deletes your account on our servers, including any synced recipes and photos; the recipes on your phone stay. It does not cancel a store subscription - cancel that first in Google Play or the App Store.</li>
         <li><strong>Delete what you shared.</strong> Remove your own ideas, shared recipes and comments in the community screens. To have something else removed, email us.</li>
-        <li><strong>Opt-in features.</strong> The nutrition cross-check, community posting, sharing, accounts, reminders and Morsel Plus all run only when you choose to use them.</li>
+        <li><strong>Opt-in features.</strong> The nutrition cross-check, community posting, sharing, accounts, sync, reminders and Morsel Plus all run only when you choose to use them.</li>
         <li><strong>Backups are yours.</strong> Export and import your recipe backup file whenever you like.</li>
         <li><strong>Offline use.</strong> Once saved, recipes can be browsed and cooked with no network connection at all.</li>
         <li><strong>Access &amp; questions.</strong> Depending on where you live, you may have rights to access, correct, delete or object to our use of your data. Email <a href="mailto:morselrecipeapp@gmail.com">morselrecipeapp@gmail.com</a> and we'll help with any privacy request.</li>
