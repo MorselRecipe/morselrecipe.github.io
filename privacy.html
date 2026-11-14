@@ -80,7 +80,7 @@
   <main>
     <article class="wrap doc">
       <h1>Privacy Policy</h1>
-      <p class="updated">Last updated: 23 October 2026</p>
+      <p class="updated">Last updated: 14 November 2026</p>
 
       <p class="lead">Morsel is built to keep your recipes on your phone. We collect as little as possible, we don't sell your data, and we never show you ads. This policy explains exactly what happens to the information you give us - and which features share anything at all.</p>
 
@@ -98,7 +98,7 @@
       <ul>
         <li><strong>Your recipes and folders</strong> - titles, ingredients, steps, servings, macros, notes, source links and photos, kept in a local database and image cache.</li>
         <li><strong>Your profile &amp; preferences</strong> - the display name you choose, plus your theme (System / Light / Dark), unit (Metric / Imperial) and language settings.</li>
-        <li><strong>Your Plus tools</strong> - food and water you log, your daily goals, and the age, sex, height and weight you enter into the goal calculator. These never leave your device.</li>
+        <li><strong>Your Plus tools</strong> - food and water you log, your daily goals, and the age, sex, height and weight you enter into the goal calculator. These never leave your device. The Morsel Plus home-screen widgets (calories, water and grocery list) read this same on-device data to draw themselves; they send nothing to us.</li>
         <li><strong>Your meal plans, grocery lists and reminders</strong> - including your shopping trip time and reminder schedules.</li>
         <li><strong>Backups.</strong> Morsel keeps an automatic copy of your recipes in the app's private storage, and you can export a backup file to anywhere you choose (Files, iCloud Drive, Google Drive, email). That file is yours - we never receive it.</li>
       </ul>
@@ -112,6 +112,9 @@
         <li><strong>Smart Planner.</strong> To fill a week of meals, the app asks our service for recipes that fit your diet preferences and calorie range. Your body details and food log are not sent.</li>
       </ul>
 
+      <h3>Server wake-up</h3>
+      <p>Our server sleeps when it's idle, so when you open Morsel (or return to it) the app sends a small request to our server's health-check address to wake it before you need it. The request carries no recipe, account or install information; as with any request, our hosting provider may log technical details such as your IP address (see "Third-party services we use" below).</p>
+
       <h3>Shared recipes and the extraction index</h3>
       <p>To make Discover useful, recipes extracted from <em>public</em> links (a public Instagram or TikTok post, or a recipe web page) are kept in a shared, searchable index so other Morsel users can find and save them. The index stores the recipe and a public link to its source - it is not linked to the person who saved it. Links that look private (for example, ones carrying a login or tracking token) are never published.</p>
 
@@ -122,9 +125,13 @@
         <li><strong>Recipe sharing in Discover:</strong> the recipe you share, your note, any photo you attach, and your display name (the first name from your profile, or a generated handle like "Cook 1A2B" if you haven't set one). Comments and suggestions on shared recipes show the same name.</li>
       </ul>
       <p>You must accept the community rules before you can post. Text and photos are checked by automated moderation (an AI model) before publishing, and other users can report content. We can also see an anonymous, one-way code derived from your device so we can remove abuse and block repeat offenders - it is never shown to other people. You can delete your own posts, shared recipes and comments in the app.</p>
+      <p><strong>Blocking.</strong> From the menu on a post, comment or shared recipe you can block its author, which hides everything they publish from you. We store the block on our server so it holds when you reopen the app: against your anonymous install code if you're signed out, or against your account if you're signed in (blocks made on the device move to your account when you sign in, so they apply on every phone). Alongside each block we keep a snapshot of the blocked person's display name so Profile &rarr; Blocked users can show who it is; the app never learns who wrote what, and the person is not told. Blocking also sends our moderators a signal about that content, which on its own never hides it for other people. You can undo a block in Profile &rarr; Blocked users.</p>
 
       <h3>Anonymous install ID</h3>
       <p>Morsel creates an anonymous identifier for your install so we can enforce the monthly AI-extraction limit, redeem Plus codes, and keep "your" community posts yours without an account. On Android it is a one-way hash of the device's app-scoped Android ID; on iOS it is a random value kept in the Keychain. We never receive the raw hardware identifier, it is not an advertising ID, and we don't use it to track you across other apps or websites.</p>
+
+      <h3>Android app integrity check</h3>
+      <p>On the Android app downloaded from Google Play, requests for recipe extraction and AI features carry a Play Integrity token. Google's Play Integrity service issues it to confirm the request comes from the genuine Morsel app on a genuine device, tied to the specific request and your anonymous install ID, and our server has Google decode it so the monthly limits can't be bypassed by faking an ID. We receive only the verdict (for example, whether the app and device passed), not your Google account or personal details. If a token can't be obtained, the request still goes through and the normal limits apply. iPhone builds do not use this check.</p>
 
       <h3>Optional account &amp; Morsel Plus</h3>
       <p>Morsel works fully without an account, and the core app stays free. If you choose to sign in:</p>
@@ -156,7 +163,7 @@
       <p>Our backend relies on a few specialised providers. Only the data needed for each task is shared with them:</p>
       <ul>
         <li><strong>Apify</strong> - fetches the content of Instagram and TikTok links.</li>
-        <li><strong>Google (Gemini)</strong> - turns scraped page content, and in some cases video, into structured recipe data; powers the AI Kitchen Assistant, substitutes and Adjust to Taste; classifies grocery items; and moderates community posts and photos.</li>
+        <li><strong>Google (Gemini)</strong> - turns scraped page content, and in some cases video, into structured recipe data; powers the AI Kitchen Assistant, substitutes and Adjust to Taste; classifies grocery items; and moderates community posts and photos. On Android, Google also issues the Play Integrity tokens described above.</li>
         <li><strong>DeepSeek</strong> - analyses recipe text (captions, comments, transcripts) when it is available, to extract recipes at lower cost.</li>
         <li><strong>Pexels</strong> - finds a relevant stock photo when a recipe has no image of its own.</li>
         <li><strong>USDA FoodData Central</strong> and <strong>Open Food Facts</strong> - public nutrition databases used, only if you opt in, to cross-check macros.</li>
@@ -182,6 +189,7 @@
       <p>Your recipes, folders, profile, trackers and preferences remain on your device until you delete them or uninstall the app. Deleting a recipe removes it, and its cached image, from your device - and, if sync is on, from the cloud copy and your other phones.</p>
       <ul>
         <li><strong>Extraction and AI caches</strong> hold the results of processed links and requests for a limited time, so repeated requests are quicker. <strong>Usage counters</strong> reset monthly.</li>
+        <li><strong>Blocks</strong> you make are kept until you unblock the person, or - for blocks tied to your account - until you delete your account.</li>
         <li><strong>Shared index entries</strong> from public links stay in Discover's index and are not tied to you.</li>
         <li><strong>Community content</strong> you publish stays visible until you delete it or we remove it under the community rules.</li>
         <li><strong>Synced recipes</strong> are kept with your account until you delete them or delete your account. A deleted recipe leaves only a small marker (its ID, when it was deleted, and - for a duplicate merged into another copy - which one) so your other phones know to remove it too; its content and photo are removed.</li>
@@ -192,7 +200,7 @@
       <ul>
         <li><strong>Delete anything, anytime.</strong> Remove individual recipes or folders in the app, or uninstall to remove everything stored locally.</li>
         <li><strong>Delete your account in the app.</strong> If you created an account, open Profile &rarr; Account &rarr; Delete account. This permanently deletes your account on our servers, including any synced recipes and photos; the recipes on your phone stay. It does not cancel a store subscription - cancel that first in Google Play or the App Store.</li>
-        <li><strong>Delete what you shared.</strong> Remove your own ideas, shared recipes and comments in the community screens. To have something else removed, email us.</li>
+        <li><strong>Delete what you shared.</strong> Remove your own ideas, shared recipes and comments in the community screens. To have something else removed, email us. Block or unblock anyone in Profile &rarr; Blocked users.</li>
         <li><strong>Opt-in features.</strong> The nutrition cross-check, community posting, sharing, accounts, sync, reminders and Morsel Plus all run only when you choose to use them.</li>
         <li><strong>Backups are yours.</strong> Export and import your recipe backup file whenever you like.</li>
         <li><strong>Offline use.</strong> Once saved, recipes can be browsed and cooked with no network connection at all.</li>
