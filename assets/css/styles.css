@@ -544,11 +544,9 @@ h3, h4 { font-weight: 700; letter-spacing: -0.015em; }
   margin-top: var(--s-xl);
 }
 
-/* ---- Store buttons (Google Play + "Coming soon to iPhone") ----
-   One shared shape, type and colour so the pair reads as a matched set. The
-   iPhone one is a span, not a link, and not Apple's badge (that's only for
-   apps that are live). On the brand-coloured CTA band both invert to white
-   with a paprika mark + text (the same pattern as .cta-inner .btn-primary). */
+/* ---- Store buttons (Google Play + App Store) ----
+   One shared shape, type and colour so the pair reads as a matched set.
+   On the brand-coloured CTA band both invert to white with a paprika mark + text (the same pattern as .cta-inner .btn-primary). */
 .store-btn {
   display: inline-flex;
   align-items: center;
